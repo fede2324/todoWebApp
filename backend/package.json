@@ -1,0 +1,26 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "API-REST of TodoList APP",
+  "license": "ISC",
+  "author": "Fefo",
+  "type": "module",
+  "main": "app.js",
+  "eslintConfig": {
+    "extends": "standard"
+  },
+  "scripts": {
+    "dev": "node -watch ./app.js"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "standard": "^17.1.2"
+  },
+  "dependencies": {
+    "cors": "2.8.5",
+    "express": "4.21.2",
+    "jsonwebtoken": "9.0.2",
+    "mysql2": "3.12.0",
+    "zod": "3.24.2"
+  }
+}

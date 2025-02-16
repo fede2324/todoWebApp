@@ -1,0 +1,26 @@
+# ENDPOINTS TO TASKS
+
+### Get all task of user
+GET http://localhost:3000/v1/users/:idUser/tasks
+### Show details about id task
+GET http://localhost:3000/v1/users/:idUser/tasks/:taskId
+### Search a task in base name 
+GET http://localhost:3000/v1/users/:idUser/tasks?search=taskTitle
+### Create a new task
+POST http://localhost:3000/v1/users/:idUser/tasks
+###  UPDATE A TASK by ID
+PATCH http://localhost:3000/v1/users/:idUser/tasks/:taskId
+###  DELETE A TASK by ID
+DELETE http://localhost:3000/v1/users/:idUser/tasks/:taskId
+
+
+### ONLY USER ENDPOINTS
+
+### Get user data. to Profile of acount  or simple to check it's exist
+GET http://localhost:3000/v1/users/:idUser
+
+### Sign in a new user
+POST http://localhost:3000/v1/users/
+
+### Log in of user
+POST http://localhost:3000/v1/users/:idUser
