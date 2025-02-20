@@ -1,20 +1,143 @@
+/* eslint-disable no-unused-vars */
 import { UserModel } from '../models/user.js'
-import { userScheme } from './schemes/userScheme.js'
+import { validateUser } from './schemes/userScheme.js'
+import jwt from 'jsonwebtoken'
+import bcrypt from 'bcrypt'
+const secretKey = process.env.SECRET
 
 export class UserController {
-  static async getUser (req, res) {
-
+  // Private fuction to validate existence of user on DB
+  static async #getUser (username) {
+    try {
+      const user = await UserModel.getUser(username)
+      return user || []
+    } catch (error) {
+      console.error('Error al obtener usuario:', error)
+      return []
+    }
   }
 
-  static async register (req, res) {
+  // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
+  static async testAuth (req, res) {
+    if (!req.cookies.token) {
+      return res.status(401).json({ token: 'INVALID_TOKEN' })
+    }
 
+    res.json({ token: 'VALID_TOKEN' })
+  }
+  // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
+
+  // Hashed password before to send database
+  static async #hashPassword (password) {
+    const hashedPassword = await bcrypt.hash(password, 12)
+    return hashedPassword
   }
 
-  static async login (req, res) {
+  // Register a new user on database
+  static async signIn (req, res) {
+    const { data } = validateUser(req.body)
+    if (data.error) return res.status(400).json({ error: JSON.parse(data.error.message) })
 
+    // Validate user
+    const userExist = await UserController.#getUser(data.username)
+    if (userExist.length !== 0) return res.status(400).json({ message: 'username in use' })
+
+    // Try create new user if it don't exist
+    try {
+      data.password = await UserController.#hashPassword(data.password)
+
+      const newUser = await UserModel.newUser({ input: data })
+
+      if (!newUser) return res.status(400).json({ status: 'Error', message: 'An error to create new user' })
+      return res.status(201).json({ status: 'Ok', message: 'Created User' })
+    } catch (e) {
+      console.log('An error ocurred: ', e.message)
+      return res.status(500).json({ message: 'An error ocurred' })
+    }
   }
 
+  // Login user and create token (JWT) to access your tasks
+  static async logIn (req, res) {
+    const data = req.body
+
+    // Validar que se envió un username y password
+    if (!data.username || !data.password) {
+      return res.status(400).json({ message: 'Username or password not valid' })
+    }
+
+    let user
+    try {
+      [user] = await UserModel.logIn({ userName: data.username })
+      if (!user) {
+        return res.status(404).json({ message: 'Username not found' })
+      }
+    } catch (e) {
+      console.error('An error occurred: ', e.message)
+      return res.status(500).json({ message: 'An error occurred' })
+    }
+
+    // Verificar la contraseña
+    const isPasswordValid = await bcrypt.compare(data.password, user.password)
+    if (!isPasswordValid) {
+      return res.status(400).json({ message: 'Invalid password' })
+    }
+
+    // Generar el token JWT
+    try {
+      const payload = { id: user.id, username: user.username }
+      const token = jwt.sign(payload, secretKey, { expiresIn: '5m' })
+
+      // Establecer la cookie y devolver la respuesta
+      return res.cookie('token', token, {
+        httpOnly: true,
+        secure: false, // Cambia a true en producción con HTTPS
+        sameSite: 'Strict',
+        maxAge: 3600000
+      })
+        .json({ message: 'User logged successfully' }) // ONLY FOR TEST -> remove on production
+    } catch (e) {
+      console.error('An error occurred: ', e.message)
+      return res.status(500).json({ message: 'An error occurred' })
+    }
+  }
+
+  // LogOut user and remove token from user cookies
+  static async logOut (req, res) {
+    const token = req.cookies.token
+    try {
+      if (!token) return res.status(401).json({ message: 'Invalid token' })
+      res.clearCookie('token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Strict'
+      })
+      return res.status(200).json({ message: 'Logged out Successfully' })
+    } catch (e) {
+      console.error('An error occurred: ', e.message)
+      return res.status(500).json({ message: 'An error occurred' })
+    }
+  }
+
+  // Delete your by username and password
   static async deleteUser (req, res) {
+    const id = req.user.id
+    // Validate ID
+    if (!id) return res.status(400).json({ message: 'User ID not found' })
 
+    try {
+      const delUser = await UserModel.deleteUser({ userID: id })
+      if (!delUser) return res.status(500).json({ message: "User couldn't be deleted" })
+
+      res.clearCookie('token', {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'Strict'
+      })
+      console.log('USER DELETED')
+      return res.status(204).end()
+    } catch (e) {
+      console.error('An error occurred:', e.message)
+      return res.status(500).json({ message: 'An error occurred' })
+    }
   }
 }

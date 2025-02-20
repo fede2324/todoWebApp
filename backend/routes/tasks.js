@@ -1,5 +1,5 @@
 import express from 'express'
-import { authenticate } from '../middlewares/jsw' // -> JSW middleware to valite user by token
+import { authenticate } from '../middlewares/jwt.js' // -> JSW middleware to valite user by token
 import { TasksController } from '../controllers/tasksController.js'
 
 export const tasksRouter = express.Router()
