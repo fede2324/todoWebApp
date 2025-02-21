@@ -10,7 +10,7 @@ content-type : application/json
     "username" : "testuser",
     "password" : "12345678"
 }
-### Log in of user
+### Log in of user (other UserTest)
 POST {{baseURL}}/users/auth/login
 Content-Type: application/json
 
@@ -32,21 +32,4 @@ POST {{baseURL}}/users/auth/logout
 
 ### delete user
 DELETE {{baseURL}}/users
-
-
-# ENDPOINTS TO TASKS
-
-### Get all task of user
-GET {{baseURL}}users/:idUser/tasks
-### Show details about id task
-GET {{baseURL}}users/:idUser/tasks/:taskId
-### Search a task in base name 
-GET {{baseURL}}users/:idUser/tasks?search=taskTitle
-### Create a new task
-POST {{baseURL}}users/:idUser/tasks
-###  UPDATE A TASK by ID
-PATCH {{baseURL}}users/:idUser/tasks/:taskId
-###  DELETE A TASK by ID
-DELETE {{baseURL}}users/:idUser/tasks/:taskId
-
 

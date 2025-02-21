@@ -1,0 +1,40 @@
+@baseURL = http://localhost:8080/api/v1
+
+
+
+### NEW TASKS
+POST {{baseURL}}/tasks
+content-type : "application/json"
+
+{
+    "title" :"Test Task" ,
+    "desc " :"This is a task ONLY TEST, to try create a new task",
+    "limit" :"10-10-2024" 
+}
+
+
+### ALL TASKS (OF A USER LOGED)
+GET {{baseURL}}/tasks
+
+
+### GET TASKS IN BASE ID-TASKS
+GET {{baseURL}}/tasks/03abd043-effa-11ef-ab16-0250c91cb3a6
+
+
+### TASKS Search Tasks by title (optional)
+GET {{baseURL}}/tasks?search=TITLE
+
+
+### UPDATE TASK BY ID
+PATCH  {{baseURL}}/tasks/584582
+content-type : "application/json"
+
+{
+    "title" :"Test Task updated" ,
+    "desc " :"Updated TEST TASK",
+    "limit" :"" 
+}
+
+
+### DELETE TASK BY ID-TASK
+DELETE {{baseURL}}/tasks/584582

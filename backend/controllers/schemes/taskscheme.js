@@ -20,6 +20,10 @@ const taskSchema = z.object({
   path: ['createdAt']
 })
 
-export function validateTask (objTask) {
+export function validTask (objTask) {
   return taskSchema.safeParse(objTask) // return an obj with error instead of throwing an error and stopping the program
+}
+
+export function validTaskPartial (objTask) {
+  return taskSchema.partial().safeParse(objTask) // Partial validate (using with update no each fields only changed)
 }

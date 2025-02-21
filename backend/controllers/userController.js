@@ -23,7 +23,7 @@ export class UserController {
       return res.status(401).json({ token: 'INVALID_TOKEN' })
     }
 
-    res.json({ token: 'VALID_TOKEN' })
+    res.json({ token: 'VALID_TOKEN', userID: req.user.id })
   }
   // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
 
@@ -85,7 +85,7 @@ export class UserController {
     // Generar el token JWT
     try {
       const payload = { id: user.id, username: user.username }
-      const token = jwt.sign(payload, secretKey, { expiresIn: '5m' })
+      const token = jwt.sign(payload, secretKey, { expiresIn: '1h' })
 
       // Establecer la cookie y devolver la respuesta
       return res.cookie('token', token, {

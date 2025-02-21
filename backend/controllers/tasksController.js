@@ -1,66 +1,62 @@
-/* eslint-disable no-unused-vars */
-import { UserModel } from '../models/user.js'
-import { TaskModel } from '../models/tasks.js'
-import { validateUser } from './schemes/userScheme.js'
+import TasksModel from '../models/task.js'
+import { validTask, validTaskPartial } from './schemes/taskscheme.js'
+import moment from 'moment'
 
-export class UserController {
-  // Private fuction to validate existence of user on DB
-  static async #getUser (username) {
-    const existUser = await UserModel.getUser({ username })
-    return existUser
+export default class TasksController {
+  static async createTask (req, res) {
+    const idUser = req.user.id
+
+    if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
+    console.log('Create new task', idUser)
   }
 
-  // Hashed password before to send database
-  static async #hashPassword (password) {
-    const hashedPassword = await bcrypt.hash(password, 12)
-    return hashedPassword
-  }
+  static async getAll (req, res) {
+    const idUser = req.user.id
 
-  // Register a new user on database
-  static async signIn (req, res) {
-    const data = validateUser(req.body)
-    if (data.error) return res.status(400).json({ error: JSON.parse(data.error.message) })
+    if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
 
-    // Validate user
-    const userExist = this.#getUser(data.username)
-    if (userExist.length === 0) return res.status(400).json({ message: 'username in use' })
-
-    // Try create new user if it don't exist
     try {
-      data.password = this.#hashPassword(data.password)
-      console.info('CREATE USER', data)
-      const newUser = await UserModel.newUser({ input: data })
-      if (newUser.status === 'error') return res.status(400).json({ message: "User can't be create. Try again " })
-      return res.status(201).json({ message: 'User created' })
+      const tasks = await TasksModel.getAll({ user: idUser })
+
+      if (tasks.length === 0) return res.status(404).json({ message: 'Tasks not found' })
+
+      return res.status(200).json({ cont: tasks.length, tasks })
     } catch (e) {
-      console.log('An error ocurred: ', e.message)
-      return res.status(500).json({ message: 'An error ocurred' })
+      console.log("Can't get tasks of user")
+      return res.status(500).json({ message: "Can't get tasks of user, try again " })
     }
   }
 
-  // Login user and create token (JWT) to access your tasks
-  static async logIn (req, res) {
-    const data = validateUser(req.body)
-    if (data.error) return res.status(400).json({ error: JSON.parse(data.error.message) })
+  static async getById (req, res) {
+    const idUser = req.user.id
+    const { idTask } = req.params
+
+    if (!idUser || !idTask) return res.status(404).json({ message: 'Invalid userId or task' })
     try {
-      console.info('LOGIN', data) // For test
+      const [task] = await TasksModel.getById({ user: idUser, taskId: idTask })
+
+      if (!task) return res.status(404).json({ message: 'Task not found' })
+
+      return res.status(200).json(task)
     } catch (e) {
-      console.log('An error ocurred: ', e.message)
-      return res.status(500).json({ message: 'An error ocurred' })
+      console.log("Can't get tasks of user")
+      return res.status(500).json({ message: "Can't get tasks of user, try again " })
     }
   }
 
-  // Delete your by username and password
-  static async deleteUser (req, res) {
-    const { id } = req.params
+  static async updateTask (req, res) {
+    const idUser = req.user.id
+    const { idTask } = req.params.id
 
-    // Validate ID and search
+    if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
+    console.log('Update task :' + idTask + ' by User: ' + idUser)
+  }
 
-    try {
-      console.info('DELETE USER', id)
-    } catch (e) {
-      console.log('An error ocurred: ', e.message)
-      return res.status(500).json({ message: 'An error ocurred' })
-    }
+  static async deleteTask (req, res) {
+    const idUser = req.user.id
+    const { idTask } = req.params.id
+
+    if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
+    console.log('Update task :' + idTask + ' by User: ' + idUser)
   }
 }

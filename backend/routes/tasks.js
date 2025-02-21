@@ -1,11 +1,18 @@
 import express from 'express'
-import { authenticate } from '../middlewares/jwt.js' // -> JSW middleware to valite user by token
-import { TasksController } from '../controllers/tasksController.js'
+import authenticate from '../middlewares/jwt.js' // -> JSW middleware to valite user by token
+import TasksController from '../controllers/tasksController.js'
 
-export const tasksRouter = express.Router()
+const tasksRouter = express.Router()
 
-tasksRouter.get('/', authenticate, TasksController.allTasks)
-tasksRouter.get('/:taskId', authenticate, TasksController.detailsTask)
-tasksRouter.post('/', authenticate, TasksController.newTask)
-tasksRouter.patch('/:taskId', authenticate, TasksController.updateTask)
-tasksRouter.delete('/:taskId', authenticate, TasksController.deleteTask)
+// Private routes (Authenticate required)
+tasksRouter.post('/', authenticate, TasksController.createTask) // Create
+
+tasksRouter.get('/', authenticate, TasksController.getAll) // Read ALL
+
+tasksRouter.get('/:idTask', authenticate, TasksController.getById) // Read by ID
+
+tasksRouter.patch('/:idTask', authenticate, TasksController.updateTask) // Update
+
+tasksRouter.delete('/:idTask', authenticate, TasksController.deleteTask) // Delete
+
+export default tasksRouter
