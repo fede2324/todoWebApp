@@ -17,7 +17,8 @@ const corsConfig = ({ accepterdOrigins = ACCEPTED_ORIGINS } = {}) => cors({
     }
 
     return callback(new Error('Not allowed by CORS'))
-  }
+  },
+  credentials: true // Allow Cookies
 })
 
 export default corsConfig

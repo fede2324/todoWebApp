@@ -24,12 +24,9 @@ Content-Type: application/json
 GET {{baseURL}}/users/auth
 ### URL PARA PRUEBA DE AUTH
 
-
 ### Log out of user
 POST {{baseURL}}/users/auth/logout
 
 
-
 ### delete user
 DELETE {{baseURL}}/users
-

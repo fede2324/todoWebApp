@@ -13,8 +13,10 @@
     "dev": "node --watch --env-file=.env ./app.js"
   },
   "devDependencies": {
+    "jest": "^29.7.0",
     "nodemon": "^3.1.9",
-    "standard": "^17.1.2"
+    "standard": "^17.1.2",
+    "supertest": "^7.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

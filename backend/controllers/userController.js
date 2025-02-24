@@ -89,12 +89,11 @@ export class UserController {
 
       // Establecer la cookie y devolver la respuesta
       return res.cookie('token', token, {
-        httpOnly: true,
-        secure: false, // Cambia a true en producción con HTTPS
+        httpOnly: false,
+        secure: false,
         sameSite: 'Strict',
         maxAge: 3600000
-      })
-        .json({ message: 'User logged successfully' }) // ONLY FOR TEST -> remove on production
+      }).end()
     } catch (e) {
       console.error('An error occurred: ', e.message)
       return res.status(500).json({ message: 'An error occurred' })
@@ -130,7 +129,7 @@ export class UserController {
 
       res.clearCookie('token', {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: 'Strict'
       })
       console.log('USER DELETED')

@@ -1,13 +1,24 @@
 import TasksModel from '../models/task.js'
-import { validTask, validTaskPartial } from './schemes/taskscheme.js'
-import moment from 'moment'
+import { validTask, validUpdate } from './schemes/taskscheme.js'
 
 export default class TasksController {
   static async createTask (req, res) {
     const idUser = req.user.id
 
+    const validData = validTask(req.body)
+
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
-    console.log('Create new task', idUser)
+    if (validData.error) return res.status(400).json({ status: 'Error', message: JSON.parse(validData.error.message) })
+
+    try {
+      const newTask = await TasksModel.createTask({ data: validData.data, user: idUser })
+
+      if (newTask.length === 0) return res.status(400).json({ status: 'error', message: 'Task no created. Try again.' })
+
+      return res.status(201).json({ status: 'Ok', content: newTask })
+    } catch (e) {
+      console.log('An error ocurred :', e.message)
+    }
   }
 
   static async getAll (req, res) {
@@ -37,7 +48,7 @@ export default class TasksController {
 
       if (!task) return res.status(404).json({ message: 'Task not found' })
 
-      return res.status(200).json(task)
+      return res.status(302).json(task)
     } catch (e) {
       console.log("Can't get tasks of user")
       return res.status(500).json({ message: "Can't get tasks of user, try again " })
@@ -46,17 +57,44 @@ export default class TasksController {
 
   static async updateTask (req, res) {
     const idUser = req.user.id
-    const { idTask } = req.params.id
+    const { idTask } = req.params
+    const validData = validUpdate(req.body)
 
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
-    console.log('Update task :' + idTask + ' by User: ' + idUser)
+    if (validData.error) return res.status(400).json({ status: 'Error', message: JSON.parse(validData.error.message) })
+
+    try {
+      const [task] = await TasksModel.getById({ user: idUser, taskId: idTask })
+      if (!task) return res.status(404).json({ message: 'Task not found' })
+
+      const updatedTask = await TasksModel.updateTask({ data: task, newData: validData.data })
+
+      if (updatedTask.length === 0) return res.status(304).json({ status: 'error', message: "Can't updated task" })
+
+      return res.status(200).json({ status: 'ok', content: updatedTask })
+    } catch (e) {
+      console.log("Can't get tasks of user")
+      return res.status(500).json({ message: "Can't update task.Try again" })
+    }
   }
 
   static async deleteTask (req, res) {
     const idUser = req.user.id
-    const { idTask } = req.params.id
+    const { idTask } = req.params
 
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
-    console.log('Update task :' + idTask + ' by User: ' + idUser)
+    const [task] = await TasksModel.getById({ user: idUser, taskId: idTask })
+    if (!task) return res.status(404).json({ message: 'Task not found' })
+
+    try {
+      const taskDelete = await TasksModel.deleteTask({ idTask })
+
+      if (taskDelete.status === 'error') return res.status(500).json(taskDelete)
+
+      return res.status(200).json(taskDelete)
+    } catch (e) {
+      console.log("Can't get tasks of user")
+      return res.status(500).json({ message: "Can't delete task.Try again" })
+    }
   }
 }

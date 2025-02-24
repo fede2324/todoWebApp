@@ -4,12 +4,15 @@
 
 ### NEW TASKS
 POST {{baseURL}}/tasks
-content-type : "application/json"
+content-type : application/json
 
 {
-    "title" :"Test Task" ,
-    "desc " :"This is a task ONLY TEST, to try create a new task",
-    "limit" :"10-10-2024" 
+    "title" :"DELETE ME" ,
+    "status":"new",
+    "description" :"This is a task ONLY TEST, to try create a new task",
+    "createdAt": "2024-01-21T11:11:00Z",
+    "updatedAt": "2024-01-21T11:11:00Z",
+    "limitTime": "2024-10-10T00:00:00Z"
 }
 
 
@@ -26,15 +29,15 @@ GET {{baseURL}}/tasks?search=TITLE
 
 
 ### UPDATE TASK BY ID
-PATCH  {{baseURL}}/tasks/584582
-content-type : "application/json"
+PATCH  {{baseURL}}/tasks/03abd043-effa-11ef-ab16-0250c91cb3a6
+content-type : application/json
 
 {
-    "title" :"Test Task updated" ,
-    "desc " :"Updated TEST TASK",
-    "limit" :"" 
+    "status":"done",
+    "updatedAt": "2024-04-24T06:15:00Z",
+    "limitTime": null
 }
 
 
 ### DELETE TASK BY ID-TASK
-DELETE {{baseURL}}/tasks/584582
+DELETE {{baseURL}}/tasks/866f8608-f197-11ef-980e-0250c91cb3a6
