@@ -125,8 +125,8 @@ export default class TasksModel {
     try {
       const [task] = await conn.query(query, [idTask])
 
-      if (task.legth === 0) return { status: 'error', message: 'Task not deleted' }
-      return { status: 'ok', message: 'Task deleted' }
+      if (task.legth === 0) return { message: 'Task not deleted' }
+      return { message: 'Task deleted' }
     } catch (e) {
       console.log('An error ocurred: ', e.message)
     }

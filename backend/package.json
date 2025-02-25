@@ -9,14 +9,19 @@
   "eslintConfig": {
     "extends": "standard"
   },
+  "jest" : {
+
+  },
   "scripts": {
-    "dev": "node --watch --env-file=.env ./app.js"
+    "dev": "node --watch --env-file=.env ./app.js",
+    "test": "jest",
+    "testES": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "devDependencies": {
     "jest": "^29.7.0",
     "nodemon": "^3.1.9",
     "standard": "^17.1.2",
-    "supertest": "^7.0.0"
+    "supertest": "7.0.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

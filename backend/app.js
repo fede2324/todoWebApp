@@ -23,3 +23,5 @@ app.use((req, res) => {
 app.listen(PORT, () => {
   console.log(`The server listening in http://localhost:${PORT}`)
 })
+
+export default app
