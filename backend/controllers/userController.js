@@ -22,8 +22,8 @@ export class UserController {
     if (!req.cookies.token) {
       return res.status(401).json({ token: 'INVALID_TOKEN' })
     }
-
-    res.json({ token: 'VALID_TOKEN', userID: req.user.id })
+    console.log(req.headers)
+    res.json({ token: 'VALID_TOKEN' })
   }
   // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
 

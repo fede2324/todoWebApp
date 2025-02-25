@@ -47,7 +47,9 @@ export default class TasksModel {
       id_user: user,
       createdAt: moment(data.createdAt, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
       updatedAt: moment(data.updatedAt, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
-      limitTime: moment(data.limitTime, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss') || null
+      limitTime: data.limitTime
+        ? moment(data.limitTime, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss')
+        : null
     }
 
     try {
@@ -77,7 +79,6 @@ export default class TasksModel {
 
   static async getById ({ user, taskId }) {
     if (!user || !taskId) return []
-    console.log(user, taskId)
     try {
       const [task] = await conn.query(this.#setQuery('AND BIN_TO_UUID(id) = ?'), [user, taskId])
       if (task.legth === 0) return []
@@ -126,7 +127,7 @@ export default class TasksModel {
       const [task] = await conn.query(query, [idTask])
 
       if (task.legth === 0) return { message: 'Task not deleted' }
-      return { message: 'Task deleted' }
+      return 'Task deleted'
     } catch (e) {
       console.log('An error ocurred: ', e.message)
     }

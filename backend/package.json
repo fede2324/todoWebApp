@@ -14,8 +14,8 @@
   },
   "scripts": {
     "dev": "node --watch --env-file=.env ./app.js",
-    "test": "jest",
-    "testES": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "testOld": "jest",
+    "test": "node --env-file=.env --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles"
   },
   "devDependencies": {
     "jest": "^29.7.0",

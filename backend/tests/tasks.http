@@ -7,12 +7,12 @@ POST {{baseURL}}/tasks
 content-type : application/json
 
 {
-    "title" :"DELETE ME" ,
+    "title" :"DELETE ME 21" ,
     "status":"new",
     "description" :"This is a task ONLY TEST, to try create a new task",
     "createdAt": "2024-01-21T11:11:00Z",
     "updatedAt": "2024-01-21T11:11:00Z",
-    "limitTime": "2024-10-10T00:00:00Z"
+    "limitTime": null
 }
 
 
@@ -40,4 +40,4 @@ content-type : application/json
 
 
 ### DELETE TASK BY ID-TASK
-DELETE {{baseURL}}/tasks/866f8608-f197-11ef-980e-0250c91cb3a6
+DELETE {{baseURL}}/tasks/6782af6f-f3cd-11ef-91bb-0250c91cb3a6
