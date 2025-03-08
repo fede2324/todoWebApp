@@ -1,68 +1,149 @@
+/* FONT  */
+@font-face {
+  font-family: 'CustomFontLight';
+  src: url('./assets/fonts/Nunito-Light.ttf');
+  font-weight: light;
+  font: normal;
+}
+@font-face {
+  font-family: 'CustomFont';
+  src: url('./assets/fonts/Nunito-Medium.ttf');
+  font-weight: normal;
+  font: normal;
+}
+@font-face {
+  font-family: 'CustomFontBold';
+  src: url('./assets/fonts/Nunito-Bold.ttf');
+  font-weight: bold;
+  font: normal;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+ --primary : #D6CCC2;
+ --secondary : #D5BDAF;
+ --netro : #EDEDE9;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+ --simple-font-light: 'CustomFontLight',sans-serif;
+ --simple-font: 'CustomFont',sans-serif;
+ --simple-font-bold: 'CustomFontBold',sans-serif; 
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
-}
-
-body {
+*{
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+body{
+  font-family: var(--simple-font);
+  background-color: var(--netro);
+}
+
+/* Frame to recover ever menu */
+.content{
   display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100dvh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
+.modal{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width:  100%;
+  max-width: 450px;
+  /* min-height: 537px; */
+  height: 70%;
+  /* height: max-content; */
+  border-radius: 20px;
+  background-color: var(--primary);
+  box-shadow: 3px 5px 10px #00000040;
 }
 
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
+
+.back{
+  width: 100%;
+  padding: 10px;
 }
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+.btnBack{
+  background-color: transparent;
+  border: none;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+.logoLogin{
+  padding: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 30%;
+  height: 25%;
+  margin: 15px auto;
+  
+}
+
+.logoForm{
+  width: 60%;
+  margin: 10px auto;
+}
+
+.formInputs{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  height: 30%;
+  margin: 20px auto;
+  padding-top: 10px;
+}
+
+.formInput{
+  display:block;
+  width: 90%;
+  height: 40px;
+  margin: 10px auto;
+  padding: 10px 8px;
+  border: none;
+  border-radius: 15px;
+  font-size: 1.2em;
+  outline: none;
+}
+.formInput-error{
+  border: 2px solid #f8a0a0;
+}
+
+.FormBottons{
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 45px;
+}
+
+.btn{
+  width: 40%;
+  height: 45px;
+  border: none;
+  border-radius: 15px;
+  font-size: 16px;
+  box-shadow: 3px 5px 10px 0 #00000040;
+}
+
+.btn_register{
+  margin-bottom:20px ;
+}
+
+.btn-secondary{
+  background-color: var(--secondary);
+}
+
+.error{
+  width: 300px;
+  margin: auto;
+  padding: 4px 0;
+  display: block;
+  text-align: center;
+  color: #bd2929;
 }

@@ -22,7 +22,6 @@ export class UserController {
     if (!req.cookies.token) {
       return res.status(401).json({ token: 'INVALID_TOKEN' })
     }
-    console.log(req.headers)
     res.json({ token: 'VALID_TOKEN' })
   }
   // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
@@ -31,6 +30,22 @@ export class UserController {
   static async #hashPassword (password) {
     const hashedPassword = await bcrypt.hash(password, 12)
     return hashedPassword
+  }
+
+  // Validate Login from Frontend with Token
+  static async validate (req, res) {
+    const token = req.cookies.token
+
+    if (!token) return res.status(401).json({ authenticated: false, message: 'No authorized' })
+
+    try {
+      const decoded = jwt.verify(token, secretKey)
+
+      res.status(200).json({ authenticated: true, user: decoded })
+    } catch (e) {
+      console.log('An error ocurred: ', e.message)
+      res.status(401).json({ authenticated: false, message: 'Invalid token' })
+    }
   }
 
   // Register a new user on database
@@ -59,6 +74,8 @@ export class UserController {
   // Login user and create token (JWT) to access your tasks
   static async logIn (req, res) {
     const data = req.body
+
+    // console.log('DATA: ', data)
 
     // Validar que se envió un username y password
     if (!data.username || !data.password) {
@@ -89,11 +106,11 @@ export class UserController {
 
       // Establecer la cookie y devolver la respuesta
       return res.cookie('token', token, {
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: true,
         sameSite: 'Strict',
         maxAge: 3600000
-      }).end()
+      }).status(200).json({ status: 'ok', message: 'login successfully' })
     } catch (e) {
       console.error('An error occurred: ', e.message)
       return res.status(500).json({ message: 'An error occurred' })
@@ -104,16 +121,16 @@ export class UserController {
   static async logOut (req, res) {
     const token = req.cookies.token
     try {
-      if (!token) return res.status(401).json({ message: 'Invalid token' })
+      if (!token) return res.status(401).json({ status: 'error', message: 'Invalid token' })
       res.clearCookie('token', {
         httpOnly: true,
         secure: false,
         sameSite: 'Strict'
       })
-      return res.status(200).json({ message: 'Logged out Successfully' })
+      return res.status(200).json({ status: 'ok', message: 'Logged out Successfully' })
     } catch (e) {
       console.error('An error occurred: ', e.message)
-      return res.status(500).json({ message: 'An error occurred' })
+      return res.status(500).json({ status: 'error', message: 'An error occurred' })
     }
   }
 
@@ -121,11 +138,11 @@ export class UserController {
   static async deleteUser (req, res) {
     const id = req.user.id
     // Validate ID
-    if (!id) return res.status(400).json({ message: 'User ID not found' })
+    if (!id) return res.status(400).json({ status: 'error', message: 'User ID not found' })
 
     try {
       const delUser = await UserModel.deleteUser({ userID: id })
-      if (!delUser) return res.status(500).json({ message: "User couldn't be deleted" })
+      if (!delUser) return res.status(500).json({ status: 'error', message: "User couldn't be deleted" })
 
       res.clearCookie('token', {
         httpOnly: true,
