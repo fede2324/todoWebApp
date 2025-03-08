@@ -127,6 +127,7 @@ body{
   height: 45px;
   border: none;
   border-radius: 15px;
+  font-family: CustomFontBold;
   font-size: 16px;
   box-shadow: 3px 5px 10px 0 #00000040;
 }
@@ -142,6 +143,7 @@ body{
 .error{
   width: 300px;
   margin: auto;
+  min-height: 25px;
   padding: 4px 0;
   display: block;
   text-align: center;

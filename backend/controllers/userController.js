@@ -17,15 +17,6 @@ export class UserController {
     }
   }
 
-  // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
-  static async testAuth (req, res) {
-    if (!req.cookies.token) {
-      return res.status(401).json({ token: 'INVALID_TOKEN' })
-    }
-    res.json({ token: 'VALID_TOKEN' })
-  }
-  // --------------------------- ONLY FOR TEST AUTHORIZATION WITH COOKIE TOKEN ---------------------------
-
   // Hashed password before to send database
   static async #hashPassword (password) {
     const hashedPassword = await bcrypt.hash(password, 12)
@@ -50,9 +41,12 @@ export class UserController {
 
   // Register a new user on database
   static async signIn (req, res) {
-    const { data } = validateUser(req.body)
-    if (data.error) return res.status(400).json({ error: JSON.parse(data.error.message) })
+    const { data, error } = validateUser(req.body)
 
+    if (error) {
+      console.log('Errores de validación:', error.errors)
+      return res.status(400).json({ errors: error.errors })
+    }
     // Validate user
     const userExist = await UserController.#getUser(data.username)
     if (userExist.length !== 0) return res.status(400).json({ message: 'username in use' })
@@ -101,8 +95,8 @@ export class UserController {
 
     // Generar el token JWT
     try {
-      const payload = { id: user.id, username: user.username }
-      const token = jwt.sign(payload, secretKey, { expiresIn: '1h' })
+      const userData = { id: user.id, username: user.username }
+      const token = jwt.sign(userData, secretKey, { expiresIn: '1h' })
 
       // Establecer la cookie y devolver la respuesta
       return res.cookie('token', token, {
@@ -110,7 +104,7 @@ export class UserController {
         secure: true,
         sameSite: 'Strict',
         maxAge: 3600000
-      }).status(200).json({ status: 'ok', message: 'login successfully' })
+      }).status(200).json({ status: 'ok', user: userData })
     } catch (e) {
       console.error('An error occurred: ', e.message)
       return res.status(500).json({ message: 'An error occurred' })

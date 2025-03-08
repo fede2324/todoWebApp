@@ -12,7 +12,6 @@ userRouter.post('/auth/login', UserController.logIn)
 userRouter.get('/auth/validate', UserController.validate)
 
 // Private routes (Authenticate required)
-userRouter.get('/auth', authenticate, UserController.testAuth) // ONLY TEST AUTH
 
 userRouter.delete('/', authenticate, UserController.deleteUser)
 

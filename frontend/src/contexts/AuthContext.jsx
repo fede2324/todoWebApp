@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     // console.log('Cargar: ',loading)
-    // console.log('Datos:', user)
+    console.log('Datos:', user)
 
     // Check if the user is logged
     useEffect(() => {
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) => {
                 if (!response.ok) throw new Error("Error validating user");
 
                 const userData = await response.json();
-                setUser(userData);
+                setUser(userData.user);
             
             } catch {
                 setUser(null);
@@ -43,14 +43,19 @@ export const AuthProvider = ({ children }) => {
             });
     
             if (!response.ok) {
-                throw new Error('Login inválido');
+                if (response.status === 400) {
+                    throw new Error('Usuario o contraseña incorrecta');
+                }else{
+                    throw new Error('Algo a salido mal. Pruebe de nuevo');
+                }
             }
 
             const userData = await response.json()
-            setUser(userData) 
+            setUser(userData.user) 
 
         } catch (e) {
             console.error('Error en login:', e.message);
+            return e.message
         }
     };
 

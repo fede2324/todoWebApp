@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom"
 import {useAuth} from '../../hooks/useAuth.jsx'
+import useAlert from "../../hooks/useAlert.jsx";
+import Message from "../../components/message.jsx";
 import logo from '../../assets/img/logoTodo.svg'
 
 const Login = () => {
   const [formData, setFormData] = useState({username:'',passwd:''})
   const [errors, setErrors] = useState({username: '', passwd: '',login:''});
+  // const [visible, setVisible] = useState(false)
   const { logIn,loading, user } = useAuth()
   const navigate = useNavigate()
+  const { alert, showAlert } = useAlert();
+
+
 
 
   const handleInputChange = (e) => {
@@ -16,8 +22,7 @@ const Login = () => {
     setErrors({...errors, [id]: ''})
 
   };
-
-  
+ 
   if (loading) {
     return <p>Cargando...</p>; // O un spinner 
   }
@@ -25,7 +30,6 @@ const Login = () => {
   if (user) {
       return <Navigate to="/alltasks" />;
   }
-
 
   const handlerLogin = async () => {
     // Validación de campos
@@ -36,19 +40,18 @@ const Login = () => {
         newErrors.username = 'El campo usuario es obligatorio';
         hasErrors = true;
     }
-
     if (!formData.passwd) {
         newErrors.passwd = 'El campo contraseña es obligatorio';
         hasErrors = true;
     }
-
     setErrors(newErrors);
+    if (hasErrors) return;
 
-    if (hasErrors) return; // Detener si hay errores
-
+    //Fetching API-REST
     try {
-      logIn({username:formData.username,password:formData.passwd})
+      const result = logIn ({username:formData.username,password:formData.passwd})
       if(user) navigate('/alltasks');
+      showAlert(result,'danger')
     } catch (e) {
         console.error('Error en login:', e.message);
         setErrors({ general: 'Error al intentar iniciar sesión' });
@@ -56,15 +59,13 @@ const Login = () => {
   };
 
 
-
-
-
   return (
     <div className="content" >
+      {alert.visible && <Message message={alert.message} type={'danger'} />}
       <div className="modal">
           <div className="logoLogin">
           <img src={logo} alt="logoTodoApp" className="logoForm"/>
-          <h2>LOGIN</h2>
+          <h2>INGRESO</h2>
           </div>
         <form method="post" className="formInputs">
           <input 

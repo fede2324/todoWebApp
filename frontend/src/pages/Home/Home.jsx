@@ -7,7 +7,7 @@ const Home = () => {
   
   const handlerLogOut = () => {
     logout()
-    navigate(0)
+    navigate('/login', {replace:true})
   }
 
   return (

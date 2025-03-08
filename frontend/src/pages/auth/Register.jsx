@@ -1,26 +1,45 @@
 import { useState } from "react"
+import {z} from 'zod'
 import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../hooks/useAuth"
+import { useAuth } from "../../hooks/useAuth.jsx"
+import   useAlert  from "../../hooks/useAlert.jsx"
 import logo from '../../assets/img/logoTodo.svg'
 import iconBack from '../../assets/img/goBack.svg'
+import Message from "../../components/message.jsx"
+
+// Scheme to validate new User
+const registerScheme = z.object({
+  username: z
+    .string()
+    .min(3, 'Al menos 3 caracteres')
+    .max(20, 'No puede exceder los 20 caracteres'),
+  password: z
+    .string()
+    .min(8, 'Al menos 8 caracteres')
+    .regex(/[A-Z]/, 'Al menos una letra mayúscula'),
+  rePassword: z.string(),
+}).refine((data) => data.password === data.rePassword, {
+  message: 'Las contraseñas no coinciden',
+  path: ['rePassword'], 
+});
+
+
 
 const Register = () => {
-  const [formData,setFormData] = useState({username:'',passwd:'',confirm:''})
-  const [errors,setErrors] = useState({username:'',passwd:'',confirm:''})
+  const [formData,setFormData] = useState({username:'',password:'',rePassword:''})
+  const [errors,setErrors] = useState({username:'',password:'',rePassword:''})
 
   const navigate = useNavigate()
-  const { user,loading } = useAuth
+  const { user,loading } = useAuth()
+  const {alert, showAlert} = useAlert() 
 
   //If the user is logged redirect to home page
   if (loading) {
-    return <p>LOADING...</p>; // O un spinner 
+    return <p>LOADING...</p>; // spinner 
   }
-
   if (user) {
-    navigate('/login')
+    navigate('/alltasks')
   }
-
-
 
 // Handler each field of the form and keep the value in base of id and reset of errors (if it exist)
   const handleInputChange = (e) => {
@@ -30,53 +49,61 @@ const Register = () => {
 
   };
 
+  //-------------------- Validation fields ---------------------- //
   const handlerRegister = async () => {
     let hasErrors = false;
-    const newErrors = { username: '', passwd: '' };
-
-    if (!formData.username) {
-      newErrors.username = 'El campo usuario es obligatorio';
-      hasErrors = true;
+  
+    try {
+      // Validar usando Zod
+      registerScheme.parse(formData);
+      setErrors({ username: '', password: '', rePassword: '' }); // Limpia errores si es válido
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        // Mapea los errores por campo
+        const fieldErrors = {};
+        error.errors.forEach((err) => {
+          fieldErrors[err.path[0]] = err.message; // path[0] identifica el campo
+        });
+        setErrors(fieldErrors); 
+        hasErrors = true; 
+      }
     }
-
-    if (!formData.passwd) {
-      newErrors.passwd = 'El campo contraseña es obligatorio';
-      hasErrors = true;
-    }
-
-    if (formData.passwd !== formData.confirm) {
-      newErrors.confirm = 'Las contraseñas no coinciden';
-      hasErrors = true;
-    }
-
-    setErrors(newErrors);
-
     if (hasErrors) {
       return; 
     }
-    // Conection to API users to create mew user
+
+  
+    //---------------------- API CONECTION ---------------------- //
     try {
-      const request = await fetch('/api/v1/users/',{
-        method:'POST',
-        headers:{
-          "Content-Type":"application/json"
+      const response = await fetch('/api/v1/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        body:JSON.stringify({username:formData.username, password: formData.passwd,confirmPasswd:formData.confirm })
-      })
-      // Validate if user was created with 
-      if (!request.ok){throw new Error('An error ocurred while try to create user.')}
+        body: JSON.stringify({
+          username: formData.username,
+          password: formData.password,
+          confirmPassword: formData.rePassword,
+        }),
+      });
+  
+      if (response.ok) {
+        // Redirige al usuario si se crea exitosamente
+        navigate('/login');
 
-      //After create user redirect to login
-      navigate('/login')
-
+      }else if (response.status === 400) {
+        showAlert('Datos invalidos', 'danger'); // Muestra error del servidor
+        throw new Error('An error occurred while trying to create the user.');
+      }
+  
     } catch (e) {
-      console.log('An error ocurred. ',e.message)
+      console.log('An error occurred:', e.message);
     }
-  } 
-
+  };
 
   return (
     <div className="content" >
+      {alert.visible && <Message message={alert.message} type={alert.type} />}
       <div className="modal">
         <div className="back">
           <button className="btnBack" onClick={()=> navigate('/login')}>
@@ -89,7 +116,7 @@ const Register = () => {
           </div>
         <form method="post" className="formInputs">
           <input 
-            className="formInput" 
+            className={`formInput ${errors.username && "formInput-error"}`}
             type="text" 
             id="username"
             value={formData.username}
@@ -98,23 +125,23 @@ const Register = () => {
           />
           <span className="error">{errors.username && errors.username}</span>
           <input 
-            className="formInput"
+            className={`formInput ${errors.password && "formInput-error"}`}
             type="password"
-            id="passwd"
-            value={formData.passwd}
+            id="password"
+            value={formData.password}
             onChange={handleInputChange} 
             placeholder="Contraseña"
           />
-          <span className="error">{errors.passwd && errors.passwd}</span>
+          <span className="error">{errors.password && errors.password}</span>
           <input 
-            className="formInput"
+            className={`formInput ${errors.rePassword && "formInput-error"}`}
             type="password"
-            id="confirm"
-            value={formData.confirm}
+            id="rePassword"
+            value={formData.rePassword}
             onChange={handleInputChange} 
             placeholder="Confirmar contraseña"
           />
-          <span className="error">{errors.confirm && errors.confirm}</span>     
+          <span className="error">{errors.rePassword && errors.rePassword}</span>     
         </form>
         <div className="FormBottons">
             <button onClick={handlerRegister} className="btn btn-secondary btn_register" >Registrarse</button>
