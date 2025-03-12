@@ -1,9 +1,13 @@
 import { useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom"
+
+// modules
 import {useAuth} from '../../hooks/useAuth.jsx'
 import useAlert from "../../hooks/useAlert.jsx";
 import Message from "../../components/message.jsx";
 import logo from '../../assets/img/logoTodo.svg'
+import Loading from "../../components/Loading.jsx";
+
 
 const Login = () => {
   const [formData, setFormData] = useState({username:'',passwd:''})
@@ -24,7 +28,7 @@ const Login = () => {
   };
  
   if (loading) {
-    return <p>Cargando...</p>; // O un spinner 
+    return <Loading/>
   }
 
   if (user) {
@@ -69,7 +73,7 @@ const Login = () => {
           </div>
         <form method="post" className="formInputs">
           <input 
-            className={`formInput ${errors.username && "formInput-error"}`} 
+            className={`formInput textField ${errors.username && "formInput-error"}`} 
             type="text" 
             id="username"
             value={formData.username}
@@ -78,7 +82,7 @@ const Login = () => {
           />
           <span className="error">{errors.username && errors.username}</span>
           <input 
-            className={`formInput ${errors.passwd && "formInput-error"}`} 
+            className={`formInput textField ${errors.passwd && "formInput-error"}`} 
             type="password"
             id="passwd"
             value={formData.passwd}

@@ -1,11 +1,21 @@
-import { useState } from "react"
-import {z} from 'zod'
-import { useNavigate } from "react-router-dom"
-import { useAuth } from "../../hooks/useAuth.jsx"
-import   useAlert  from "../../hooks/useAlert.jsx"
-import logo from '../../assets/img/logoTodo.svg'
-import iconBack from '../../assets/img/goBack.svg'
-import Message from "../../components/message.jsx"
+// External
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { z } from "zod";
+
+// Custom hooks
+import { useAuth } from "../../hooks/useAuth.jsx";
+import useAlert from "../../hooks/useAlert.jsx";
+
+// Resources
+import logo from "../../assets/img/logoTodo.svg";
+import iconBack from "../../assets/img/goBack.svg";
+
+// Components
+import Message from "../../components/message.jsx";
+import Loading from "../../components/Loading.jsx"
+
+
 
 // Scheme to validate new User
 const registerScheme = z.object({
@@ -35,7 +45,7 @@ const Register = () => {
 
   //If the user is logged redirect to home page
   if (loading) {
-    return <p>LOADING...</p>; // spinner 
+    return <Loading/>
   }
   if (user) {
     navigate('/alltasks')
@@ -106,7 +116,7 @@ const Register = () => {
       {alert.visible && <Message message={alert.message} type={alert.type} />}
       <div className="modal">
         <div className="back">
-          <button className="btnBack" onClick={()=> navigate('/login')}>
+          <button className="btnIcon" onClick={()=> navigate('/login')}>
             <img src={iconBack} alt="volver" />
           </button>
         </div>
@@ -116,7 +126,7 @@ const Register = () => {
           </div>
         <form method="post" className="formInputs">
           <input 
-            className={`formInput ${errors.username && "formInput-error"}`}
+            className={`formInput textField ${errors.username && "formInput-error"}`}
             type="text" 
             id="username"
             value={formData.username}
@@ -125,7 +135,7 @@ const Register = () => {
           />
           <span className="error">{errors.username && errors.username}</span>
           <input 
-            className={`formInput ${errors.password && "formInput-error"}`}
+            className={`formInput textField ${errors.password && "formInput-error"}`}
             type="password"
             id="password"
             value={formData.password}
@@ -134,7 +144,7 @@ const Register = () => {
           />
           <span className="error">{errors.password && errors.password}</span>
           <input 
-            className={`formInput ${errors.rePassword && "formInput-error"}`}
+            className={`formInput textField ${errors.rePassword && "formInput-error"}`}
             type="password"
             id="rePassword"
             value={formData.rePassword}

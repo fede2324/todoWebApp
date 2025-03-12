@@ -19,13 +19,14 @@
 }
 
 :root {
- --primary : #D6CCC2;
- --secondary : #D5BDAF;
- --netro : #EDEDE9;
+ --primary  : #D6CCC2;
+ --secondary: #D5BDAF;
+ --netro    : #EDEDE9;
+ --extra    : #F16124;
 
  --simple-font-light: 'CustomFontLight',sans-serif;
- --simple-font: 'CustomFont',sans-serif;
- --simple-font-bold: 'CustomFontBold',sans-serif; 
+ --simple-font      : 'CustomFont',sans-serif;
+ --simple-font-bold : 'CustomFontBold',sans-serif; 
 }
 
 *{
@@ -38,8 +39,8 @@ body{
   font-family: var(--simple-font);
   background-color: var(--netro);
 }
+/* GENETAL STYLE COMPONENTS */
 
-/* Frame to recover ever menu */
 .content{
   display: flex;
   flex-direction: column;
@@ -54,24 +55,50 @@ body{
   flex-direction: column;
   align-items: center;
   width:  100%;
-  max-width: 450px;
+  max-width: 350px;
   /* min-height: 537px; */
   height: 70%;
-  /* height: max-content; */
+  height: max-content;
   border-radius: 20px;
   background-color: var(--primary);
   box-shadow: 3px 5px 10px #00000040;
 }
 
+.loading{
+  width: 100dvw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+}
 
 .back{
   width: 100%;
   padding: 10px;
 }
-.btnBack{
+.btnIcon{
   background-color: transparent;
   border: none;
 }
+
+.textField{
+  display:block;
+  border: none;
+  outline: none;
+  transition: outline 0.5s ease-in-out;
+}
+
+.textField:focus{
+  outline: 1px solid var(--extra);
+}
+
+
+
+
+/* LOGIN STYLE COMPONENTS */
 
 .logoLogin{
   padding: 10px;
@@ -101,15 +128,12 @@ body{
 }
 
 .formInput{
-  display:block;
   width: 90%;
   height: 40px;
   margin: 10px auto;
   padding: 10px 8px;
-  border: none;
   border-radius: 15px;
   font-size: 1.2em;
-  outline: none;
 }
 .formInput-error{
   border: 2px solid #f8a0a0;
@@ -148,4 +172,85 @@ body{
   display: block;
   text-align: center;
   color: #bd2929;
+}
+
+/* HOME PAGE */
+
+header{
+  width: 100dvw;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 8px;
+  background-color: var(--primary);
+  margin-bottom: 10px;
+}
+
+.logoHeader{
+  width: 30px;
+}
+
+.searchBar{
+  width: 90%;
+  height: 30px;
+  margin: 10px 0;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 15px;
+  padding: 0 10px;
+  background-color: #D9D9D9;
+}
+
+.homeContent{
+  width: 100%;
+  height: 90dvh;
+
+
+}
+
+.contentTasks{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.taskCard{
+  width: 100%;
+  height: 10%;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  grid-template-columns: repeat(2,40%) 20%;
+  padding: 5px 10px;
+  background-color: var(--primary);
+}
+
+.taskCard__title{
+  font-size: 1em;
+}
+
+.taskCard__status{
+  width: 93px;
+  padding: 3px 10px;
+  text-align: center;
+  font-family: var(--simple-font-bold);
+  font-size: .8em;
+}
+
+.status--new{
+  color: #f2f2f2;
+  background-color: #545cc9;
+}
+.status--progress{
+  background-color: #c9a054;
+}
+.status--done{
+  background-color: rgb(105, 255, 85);
+}
+
+.Taskoptions{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
