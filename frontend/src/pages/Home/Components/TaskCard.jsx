@@ -1,12 +1,19 @@
+
+
+//Resources
 import editIcon from '../../../assets/img/editIcon.svg'
 import delIcon from '../../../assets/img/delIcon.svg'
+
+
 
 const TaskCard = ({id,title,status}) => {
 
     const delTask = ()=>{
+        //Create fuction to delete task (show a message to confirm)
         alert('MENU DELETE TASK ', id)
     }
     const editMenu = ()=>{
+        //Create fuction to show modal to edit task
         alert('SHOW EDIT MENU')
     }
 
@@ -23,10 +30,10 @@ const TaskCard = ({id,title,status}) => {
         <span className={`taskCard__status ${className}`}>{text}</span>
 
         <div className="Taskoptions" >
-          <button className="btnIcon" onClick={editMenu}>
+          <button className="btnSimple" onClick={editMenu}>
             <img src={editIcon} alt="editar"/>
             </button>
-          <button className="btnIcon" onClick={delTask}>
+          <button className="btnSimple" onClick={delTask}>
             <img src={delIcon} alt="eliminar"/>
             </button>
         </div>

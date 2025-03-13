@@ -7,7 +7,7 @@ export const AuthProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     // console.log('Cargar: ',loading)
-    console.log('Datos:', user)
+    // console.log('Datos:', user)
 
     // Check if the user is logged
     useEffect(() => {
