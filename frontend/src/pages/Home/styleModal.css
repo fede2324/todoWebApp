@@ -1,0 +1,89 @@
+
+/* General */
+.inputModal{
+    background-color: var(--netro);
+    border: none;
+    border-bottom: 1px solid #000;
+}
+
+.modalForm{
+    padding: 5px 10px;
+}
+
+/* MOD */
+.modalTitle{text-align: center;}
+.inputModal.title{
+    width: 80%;
+    height: 25px;
+    text-align: center;
+}
+
+.taskInfo{
+    width: 90%;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: 48% 52%;
+}
+
+.statusTask{
+    width: 80%;
+    height: 25px;
+    border: none;
+    border-radius: 8px;
+    padding: 0 5px;
+    font-family: var(--simple-font-light);
+}
+
+.modalLabel{
+    text-align: center;
+    display: block;
+}
+.timeTask{
+    display: flex;
+    flex-direction: column;
+    
+}
+.inputModal.time{
+    font-size: 14px;
+    text-align: center;
+    font-family: var(--simple-font-light);
+}
+
+.descriptionArea{
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 0 8px;
+}
+
+.descriptionArea h3{
+    font-size: 14px;
+}
+.description{
+    width: 100%;
+    height: 150px;
+    margin: auto;
+    font-family: var(--simple-font-light);
+}
+
+.btns{
+    width: 90%;
+    height: max-content;
+    margin: 15px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.limitTimeArea{
+    display: flex;
+    justify-content: space-around;
+}
+.inputModal.limitTime{
+    width: 55%;
+    border-radius: 8px;
+    padding: 0 5px;
+}
+
+.btn.modalForm{
+    width: 40%;
+    height: 50%;
+}

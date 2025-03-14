@@ -95,7 +95,38 @@ body{
   outline: 1px solid var(--extra);
 }
 
+.modalBg{
+  width: 100dvw;
+  height: 100dvh;
+  position: fixed;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(4px);
+}
 
+.title{
+  text-align: center;
+}
+
+
+.btn{
+  width: 40%;
+  height: 45px;
+  border: none;
+  border-radius: 15px;
+  font-family: CustomFontBold;
+  font-size: 16px;
+  box-shadow: 3px 5px 10px 0 #00000040;
+}
+
+.btn.save{
+  background-color: rgb(149, 214, 123);
+}
+.btn.cancel{
+  background-color: rgb(214, 123, 123);
+}
 
 
 /* LOGIN STYLE COMPONENTS */
@@ -144,16 +175,6 @@ body{
   justify-content: space-around;
   width: 100%;
   margin-top: 45px;
-}
-
-.btn{
-  width: 40%;
-  height: 45px;
-  border: none;
-  border-radius: 15px;
-  font-family: CustomFontBold;
-  font-size: 16px;
-  box-shadow: 3px 5px 10px 0 #00000040;
 }
 
 .btn_register{

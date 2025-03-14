@@ -1,7 +1,7 @@
 
 
 //Resources
-import editIcon from '../../../assets/img/editIcon.svg'
+import showIcon from '../../../assets/img/showIcon.svg'
 import delIcon from '../../../assets/img/delIcon.svg'
 
 
@@ -31,7 +31,7 @@ const TaskCard = ({id,title,status}) => {
 
         <div className="Taskoptions" >
           <button className="btnSimple" onClick={editMenu}>
-            <img src={editIcon} alt="editar"/>
+            <img src={showIcon} alt="editar"/>
             </button>
           <button className="btnSimple" onClick={delTask}>
             <img src={delIcon} alt="eliminar"/>
