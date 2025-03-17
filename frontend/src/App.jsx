@@ -1,4 +1,6 @@
+import { AlertProvider } from "./contexts/AlertContext"
 import { AuthProvider } from "./contexts/AuthContext"
+import { HomeProvider } from "./contexts/HomeContext"
 import AppRouter from "./router/AppRoutes"
 
 function App() {
@@ -6,7 +8,11 @@ function App() {
   //Return the "controller" of pages
   return(
   <AuthProvider>
-    <AppRouter/>
+    <AlertProvider>
+      <HomeProvider>
+        <AppRouter/>
+      </HomeProvider>
+    </AlertProvider>
   </AuthProvider>
 )}
 

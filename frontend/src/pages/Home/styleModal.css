@@ -10,6 +10,11 @@
     padding: 5px 10px;
 }
 
+.dataDetails{
+    display: block;
+}
+
+
 /* MOD */
 .modalTitle{text-align: center;}
 .inputModal.title{
@@ -86,4 +91,43 @@
 .btn.modalForm{
     width: 40%;
     height: 50%;
+}
+
+.title.details{
+    font-size: 20px;
+}
+
+.label.details{
+    font-size: 16px;
+    text-align: center;
+}
+.dataDetails{
+    font-family: var(--simple-font-light);
+    font-size: 16px;
+}
+
+
+.info{
+    width: 100%;
+    padding: 10px ;
+    display: grid;
+    grid-template-columns: repeat(2,52%);
+}
+
+.descriptionDetails{
+    width: 100%;
+    padding: 8px;
+}
+
+.descriptionDetails>h2{
+    font-size: 18px;
+}
+
+.descriptionDetails>p{
+    width: 100%;
+    height: 160px;
+    padding: 10px;
+    background-color: var(--netro);
+    border-radius: 8px;
+    box-shadow: 3px 5px 10px 1px rgba(0, 0, 0, 0.329);
 }

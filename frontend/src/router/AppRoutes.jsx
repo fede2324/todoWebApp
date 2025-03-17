@@ -17,7 +17,7 @@ const AppRouter = () => {
 
                 {/* PRIVATE ROUTES */}
                 <Route element={<ProtectedRoute/>}>
-                    <Route path='/allTasks' element={<Home/>}/>     
+                    <Route path='/allTasks' element={<Home/>}/> 
                 </Route>
 
                 {/* Default page  it's not found */}

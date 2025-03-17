@@ -1,15 +1,16 @@
+// Style
 import './message.css'
-
-import imgOK from "../assets/img/ok.svg";
-import imgWarning from "../assets/img/warning.svg";
-import imgDanger from "../assets/img/danger.svg";
+//Resources
+import imgOK from "@imgs/ok.svg";
+import imgWarning from "@imgs/warning.svg";
+import imgDanger from "@imgs/danger.svg";
 
 const Message = ({message, type}) => {
     
 
     //Dynamic style of message : Alert, notice or successful
     const alertConfig = {
-        successfull: { className: 'green', imgSrc: imgOK },
+        success: { className: 'green', imgSrc: imgOK },
         warning: { className: 'yellow', imgSrc: imgWarning },
         danger: { className: 'red', imgSrc: imgDanger },
     };

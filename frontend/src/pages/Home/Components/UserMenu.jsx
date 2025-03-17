@@ -1,14 +1,16 @@
 import { useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../../../hooks/useAuth.jsx"
+import useHome from "../hooks/useModal.jsx"
 import {useClickOutside} from '../../../hooks/useOutsideClick.jsx'
 
-const UserMenu = ({visible,setVisible}) => {
+const UserMenu = () => {
     const menuRef = useRef() //ref menu
     const {logout} = useAuth()
     const {navigate} = useNavigate()
+    const {displayMenu,userMenu} = useHome()
 
-    useClickOutside(menuRef,()=> setVisible(false))//Get ref to element and handler
+    useClickOutside(menuRef,()=>displayMenu(false))//Get ref to element and handler
 
     const handlerLogout = () => {
         logout()
@@ -16,7 +18,7 @@ const UserMenu = ({visible,setVisible}) => {
       }
 
     return (
-        <div className={`userMenu ${!visible ? '' : 'show'}`} ref={menuRef}>
+        <div className={`userMenu ${userMenu ? 'show' : ''}`} ref={menuRef}>
             <div className="menu options">
             <h3 className="menu title" >USERNAME</h3>
             <button className="btnSimple" >Cambiar contraseña</button>

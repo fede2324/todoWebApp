@@ -5,7 +5,8 @@ let conn
 try {
   conn = await mysql.createConnection(configDb)
 } catch (e) {
-  console.log('Error on DB connection')
+  console.log('Error on DB connection[USERS]')
+  console.log('\n', e.message)
 }
 
 export class UserModel {

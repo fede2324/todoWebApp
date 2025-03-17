@@ -1,13 +1,14 @@
+//External
 import { useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom"
-
-// modules
-import {useAuth} from '../../hooks/useAuth.jsx'
-import useAlert from "../../hooks/useAlert.jsx";
-import Message from "../../components/message.jsx";
-import logo from '../../assets/img/logoTodo.svg'
-import Loading from "../../components/Loading.jsx";
-
+// Hooks
+import {useAuth} from '@hooks/useAuth.jsx'
+import useAlert from "@hooks/useAlert.jsx";
+//Components
+import Message from "@components/Message.jsx";
+import Loading from "@components/Loading.jsx";
+//Resources
+import logo from '@imgs/logoTodo.svg'
 
 const Login = () => {
   const [formData, setFormData] = useState({username:'',passwd:''})
@@ -65,7 +66,7 @@ const Login = () => {
 
   return (
     <div className="content" >
-      {alert.visible && <Message message={alert.message} type={'danger'} />}
+      {alert.visible && <Message message={alert.message} type={alert.type} />}
       <div className="modal">
           <div className="logoLogin">
           <img src={logo} alt="logoTodoApp" className="logoForm"/>

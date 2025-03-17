@@ -4,16 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 // Custom hooks
-import { useAuth } from "../../hooks/useAuth.jsx";
-import useAlert from "../../hooks/useAlert.jsx";
+import { useAuth } from "@hooks/useAuth.jsx";
+import useAlert from "@hooks/useAlert.jsx";
 
 // Resources
-import logo from "../../assets/img/logoTodo.svg";
-import iconBack from "../../assets/img/goBack.svg";
+import logo from "@imgs/logoTodo.svg";
+import iconBack from "@imgs/goBack.svg";
 
 // Components
-import Message from "../../components/message.jsx";
-import Loading from "../../components/Loading.jsx"
+import Message from "@components/Message.jsx";
+import Loading from "@components/Loading.jsx"
 
 
 

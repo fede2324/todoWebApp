@@ -7,7 +7,8 @@ let conn
 try {
   conn = await mysql.createConnection(config)
 } catch (e) {
-  console.log('An error ocurred: ', e.message)
+  console.log('Error on DB connection[TASKS]')
+  console.log('\n', e.message)
 }
 
 export default class TasksModel {
