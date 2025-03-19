@@ -1,19 +1,8 @@
-import { AlertProvider } from "./contexts/AlertContext"
-import { AuthProvider } from "./contexts/AuthContext"
-import { HomeProvider } from "./contexts/HomeContext"
-import AppRouter from "./router/AppRoutes"
+import AppRouter from "./router/AppRoutes.jsx"
 
 function App() {
 
   //Return the "controller" of pages
-  return(
-  <AuthProvider>
-    <AlertProvider>
-      <HomeProvider>
-        <AppRouter/>
-      </HomeProvider>
-    </AlertProvider>
-  </AuthProvider>
-)}
+  return(<AppRouter/>)}
 
 export default App

@@ -8,10 +8,12 @@
 
 .modalForm{
     padding: 5px 10px;
+    max-width: none;
 }
 
 .dataDetails{
     display: block;
+    text-align: center;
 }
 
 
@@ -68,6 +70,7 @@
     height: 150px;
     margin: auto;
     font-family: var(--simple-font-light);
+    font-size: 16px;
 }
 
 .btns{
@@ -127,7 +130,18 @@
     width: 100%;
     height: 160px;
     padding: 10px;
+    word-wrap: break-word;
     background-color: var(--netro);
     border-radius: 8px;
     box-shadow: 3px 5px 10px 1px rgba(0, 0, 0, 0.329);
+}
+
+.editBtn button > img{
+    width: 35px;
+}
+
+.editBtn button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

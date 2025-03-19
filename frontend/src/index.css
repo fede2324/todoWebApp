@@ -35,9 +35,11 @@
   padding: 0;
 }
 
+
 body{
   font-family: var(--simple-font);
   background-color: var(--netro);
+  overflow-y: hidden;
 }
 /* GENETAL STYLE COMPONENTS */
 
@@ -212,7 +214,7 @@ header{
 .searchBar{
   width: 90%;
   height: 30px;
-  margin: 10px 0;
+  margin: 20px 0;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
@@ -224,7 +226,31 @@ header{
 .homeContent{
   width: 100%;
   height: 90dvh;
+  display: grid;
+  grid-template-rows: 10% 80% 10%;
 }
+
+
+.confirmMessage.modal{
+  position: absolute;
+  z-index: 10;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 15px;
+  padding: 10px 8px;
+}
+
+.confirmMessage>p{
+  font-size: 16px;
+}
+.btns.confirmMessage{margin: 8px auto;}
+.btn.confirmMessage{
+  width: 100px;
+  height: 45px;
+  
+}
+
 
 /* SIDEBAR FILTERS*/
 .filters {
@@ -283,12 +309,13 @@ header{
   transition: height .8s ease-in-out;
 }
 .userMenu.show{
-  height: 20%;
+  height: 15%;
 }
 
 .menu.title{
   font-size: 14px;
   padding: 5px 0 ;
+  text-transform: uppercase;
   font-family: var(--simple-font-light);
   text-align: center;
   background-color: var(--secondary);
@@ -304,14 +331,17 @@ header{
 
 /*  TASK-CARD */
 .contentTasks{
+  width: 100%;
+  height: max-content;
+  /* margin-top: 20px; */
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 15px;
 }
 
 .taskCard{
   width: 100%;
-  height: 10%;
+  height: 40px;
   display: grid;
   align-items: center;
   justify-items: center;
@@ -322,7 +352,7 @@ header{
 }
 
 .taskCard__title{
-  font-size: 1em;
+  font-size: 14px;
 }
 
 .taskCard__status{
@@ -361,4 +391,35 @@ header{
   font-size: 30px;
   font-family: var(--simple-font-bold);
   background-color: var(--secondary);
+}
+
+.noFound{
+  text-align: center;
+  
+}
+.noFound h3{
+  font-size: 25px;
+}
+
+.noFound img{
+  filter: invert(75%) sepia(13%) saturate(16%) hue-rotate(348deg) brightness(90%) contrast(91%);
+  width: 30%;
+  margin-top: 20%;
+  user-select: none;
+}
+
+.btnPages{
+  width: 90%;
+  display: flex;
+  padding: 20px;
+  justify-content: space-around;
+}
+.changePage{
+  width: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.changePage img{
+  width: 35%;
 }

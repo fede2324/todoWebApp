@@ -19,9 +19,9 @@ export default class TasksModel {
     title,
     status,
     description,
-    DATE_FORMAT(createdAt, '%d-%m-%Y %H:%i:%s') as createdAt,
-    DATE_FORMAT(updatedAt, '%d-%m-%Y %H:%i:%s') as updatedAt,
-    limitTime
+    DATE_FORMAT(createdAt, '%Y-%m-%dT%H:%i') as createdAt,
+    DATE_FORMAT(updatedAt, '%Y-%m-%dT%H:%i') as updatedAt,
+    DATE_FORMAT(limitTime, '%Y-%m-%dT%H:%i') as limitTime
     FROM tasks WHERE BIN_TO_UUID(id_user) = ?`
 
     if (typeof custom !== 'string' || custom.match(/(DROP|DELETE|INSERT|UPDATE|ALTER|TRUNCATE)/i)) {

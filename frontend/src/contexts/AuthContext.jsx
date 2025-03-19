@@ -1,19 +1,16 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react"
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
+    const [isAuthenticated,setIsAuthenticated] = useState(false)
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-
-    // console.log('Cargar: ',loading)
-    // console.log('Datos:', user)
-
     // Check if the user is logged
     useEffect(() => {
         const validateUser = async () => {
             try {
-                const response = await fetch("http://localhost:8080/api/v1/users/auth/validate", {
+                const response = await fetch("/api/v1/users/auth/validate", {
                     method: "GET",
                     credentials: "include",
                 });
@@ -22,9 +19,11 @@ export const AuthProvider = ({ children }) => {
 
                 const userData = await response.json();
                 setUser(userData.user);
+                setIsAuthenticated(true)
             
             } catch {
                 setUser(null);
+                setIsAuthenticated(false)
             } finally {
                 setLoading(false);
             }
@@ -43,7 +42,8 @@ export const AuthProvider = ({ children }) => {
             });
     
             if (!response.ok) {
-                if (response.status === 400) {
+                console.log('Status: ',response.status)
+                if (response.status === 400 || response.status === 404 ) {
                     throw new Error('Usuario o contraseña incorrecta');
                 }else{
                     throw new Error('Algo a salido mal. Pruebe de nuevo');
@@ -61,7 +61,7 @@ export const AuthProvider = ({ children }) => {
 
     async function logout (){
         try {
-            const response = await fetch("http://localhost:8080/api/v1/users/auth/logout", {
+            const response = await fetch("/api/v1/users/auth/logout", {
                 method: "POST",
                 credentials: "include",
             });
@@ -72,12 +72,11 @@ export const AuthProvider = ({ children }) => {
         } catch (e){
             console.log("User not logged:", e.message);
         }
-		// setLoading(false) // Try without change loading, 
     };
 
     // Provider
     return (
-        <AuthContext.Provider value={{ logIn, logout, loading, user }}>
+        <AuthContext.Provider value={{ logIn, logout, loading, user,isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     );

@@ -31,13 +31,11 @@ GET {{baseURL}}/tasks?search=TITLE
 ### UPDATE TASK BY ID
 PATCH  {{baseURL}}/tasks/03abd043-effa-11ef-ab16-0250c91cb3a6
 content-type : application/json
-
 {
     "status":"done",
     "updatedAt": "2024-04-24T06:15:00Z",
     "limitTime": null
 }
-
 
 ### DELETE TASK BY ID-TASK
 DELETE {{baseURL}}/tasks/6782af6f-f3cd-11ef-91bb-0250c91cb3a6

@@ -2,7 +2,7 @@
 import { useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom"
 // Hooks
-import {useAuth} from '@hooks/useAuth.jsx'
+import useAuth  from '@hooks/useAuth.jsx'
 import useAlert from "@hooks/useAlert.jsx";
 //Components
 import Message from "@components/Message.jsx";
@@ -53,15 +53,19 @@ const Login = () => {
     if (hasErrors) return;
 
     //Fetching API-REST
+
     try {
-      const result = logIn ({username:formData.username,password:formData.passwd})
-      if(user) navigate('/alltasks');
-      showAlert(result,'danger')
+        const result = await logIn({ username: formData.username, password: formData.passwd });
+        if (result) showAlert(result, 'danger');
+        if (user) navigate('/alltasks');
+        console.log('RESULT-LOGIN: ', result)
     } catch (e) {
-        console.error('Error en login:', e.message);
-        setErrors({ general: 'Error al intentar iniciar sesión' });
+            console.error('Error en login:', e.message);
+            setErrors({ general: 'Error al intentar iniciar sesión' });
+            showAlert(e.message, 'danger');
+        }
     }
-  };
+    
 
 
   return (

@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 
 // Custom hooks
-import { useAuth } from "@hooks/useAuth.jsx";
+import useAuth from "@hooks/useAuth.jsx";
 import useAlert from "@hooks/useAlert.jsx";
 
 // Resources

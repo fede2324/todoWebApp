@@ -1,7 +1,7 @@
 import ModalTaskForm from "./ModalTaskForm.jsx";
 import ModalDetails from "./ModalDetails.jsx";
 //Hooks
-import useHome from '../hooks/useModal.jsx'
+import useHome from '@hooks/useModal.jsx'
 
 const ModalContainer = () => {
     //This component allow to select what Modal is open and pass data, and close btn Fuction

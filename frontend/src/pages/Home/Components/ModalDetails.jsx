@@ -1,18 +1,28 @@
-import useHome from "../hooks/useModal";
+// External
+import moment   from "moment";
+// Hooks
+import useHome  from "@hooks/useModal";
+// Resources
 import iconBack from "@imgs/goBack.svg";
 import editIcon from "@imgs/editIcon.svg";
 
 const ModalDetails = ({data, close}) => {
   const {openModal} = useHome()
-  if (!data){
-    close()
-    return null
-  }
+  if (!data){close()}
 
   const edit = () =>{
     close()
     openModal('edit',data)
   }
+  
+
+
+  const statusType = {
+    new: { className: 'status--new', text: 'Nueva' },
+    'in-progress': { className: 'status--progress', text: 'En proceso' },
+    done: { className: 'status--done', text: 'Completa' },
+};
+const { className, text } = statusType[data.status] || statusType['new'];
 
   return (
     <div className="modal modalForm" >
@@ -25,15 +35,15 @@ const ModalDetails = ({data, close}) => {
       <div className="info">
         <div className="infoLeft">
           <h3 className="label details" >estado</h3>
-          <span className="dataDetails" >{data.status}</span>
+          <span className={`dataDetails ${className} `} >{text}</span>
           <h3 className="label details" >Limite</h3>
-          <span className="dataDetails" >{data.limitTime}</span>
+          <span className="dataDetails" >{data.limitTime ? moment(data.limitTime).local().format('DD-MM-YY H:mm'):'Sin limite'}</span>
         </div>
         <div className="infoRight">
           <h3 className="label details" >Creado</h3>
-          <span className="dataDetails" >{data.createdAt}</span>
+          <span className="dataDetails" >{moment(data.createdAt).format('DD-MM-YY h:mm')}</span>
           <h3 className="label details" >Actualizado</h3>
-          <span className="dataDetails" >{data.updatedAt}</span>
+          <span className="dataDetails" >{moment(data.updatedAt).format('DD-MM-YY h:mm') || ''}</span>
         </div>
       </div>
       <div className="descriptionDetails">

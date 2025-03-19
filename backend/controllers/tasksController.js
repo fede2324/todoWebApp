@@ -5,7 +5,10 @@ export default class TasksController {
   static async createTask (req, res) {
     const idUser = req.user.id
 
+    console.log('!!datos:!! ', req.body)
     const validData = validTask(req.body)
+
+    console.log(!validData.success ? validData.error.message : 'no mensaje')
 
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })
     if (validData.error) return res.status(400).json({ status: 'error', message: JSON.parse(validData.error.message) })

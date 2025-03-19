@@ -7,9 +7,14 @@ export const HomeProvider = ({ children }) => {
   const [modalData, setModalData] = useState(null); // task info(dataTask)
   const [userMenu, setUserMenu] = useState(false); // Show usermenu
 
+
   const openModal = (type, data = null) => {
     setModalType(type);
     setModalData(data);
+  };
+  const closeModal = () => {
+    setModalType(null);
+    setModalData(null);
   };
 
   //Handler UserMenu Modal
@@ -17,13 +22,9 @@ export const HomeProvider = ({ children }) => {
     setUserMenu(display)
   }
 
-  const closeModal = () => {
-    setModalType(null);
-    setModalData(null);
-  };
 
   return (
-    <HomeContext.Provider value={{ modalType, modalData, openModal, closeModal, displayMenu, userMenu}}>
+    <HomeContext.Provider value={{ modalType, modalData, openModal, closeModal, displayMenu, userMenu,confirm}}>
       {children}
     </HomeContext.Provider>
   );

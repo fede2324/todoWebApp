@@ -22,6 +22,7 @@ export default defineConfig(() => ({ // Only Dev mode
   },
   resolve:{
     alias:{
+      '@contexts': path.resolve(__dirname, 'src/contexts'),
       '@hooks': path.resolve(__dirname, 'src/hooks'),
       '@imgs': path.resolve(__dirname, 'src/assets/imgs'),
       '@components':path.resolve(__dirname,'src/components')

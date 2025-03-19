@@ -1,32 +1,50 @@
 // hook
-import useHome from '../hooks/useModal'
+import useHome  from '@hooks/useModal'
+import useAlert from "@hooks/useAlert"
 //Resources
 import showIcon from '@imgs/showIcon.svg'
-import delIcon from '@imgs/delIcon.svg'
+import delIcon  from '@imgs/delIcon.svg'
 
 
-const TaskCard = ({id,dataTask}) => {
+const TaskCard = ({dataTask}) => {
   const { openModal } = useHome();
+  const {showConfirm,showAlert}  = useAlert()
 
     const showDetails = ()=>{
       openModal('details',dataTask)
     }
 
-    const delTask = ()=>{
-        //Create fuction to delete task (show a message to confirm)
-        alert('MENU DELETE TASK ', id)
+    const deleteTask =async () => {
+      try {
+        const response = await fetch(`/api/v1/tasks/${dataTask.id}`,{
+          method: 'DELETE',
+          credentials:'include'
+        })
+        if (!response.ok){ throw new Error('No se pudo eliminar la tarea')}
+        showAlert('Tarea eliminada','success');
+
+
+      } catch (e) {
+        showAlert(e.message,'danger')
+      }
+
     }
-    // const editMenu = ()=>{
-    //     //Create fuction to show modal to edit task
-    //     openModal('edit',dataTask)
-    // }
+
+
+    const  delTask =()=>{
+        //Create fuction to delete task (show a message to confirm)
+        showConfirm(`Quiere elimilar la tarea? "${dataTask.title}"`,deleteTask)
+
+        //Fetch to delete Task
+    }
+
 
     const statusType = {
         new: { className: 'status--new', text: 'Nueva' },
         'in-progress': { className: 'status--progress', text: 'En proceso' },
         done: { className: 'status--done', text: 'Completa' },
     };
-    const { className, text } = statusType[status] || statusType['new'];
+    const { className, text } = statusType[dataTask.status] || statusType['new'];
 
     return(
       <div className="taskCard"role='button' onClick={showDetails} >
@@ -34,12 +52,24 @@ const TaskCard = ({id,dataTask}) => {
       <span className={`taskCard__status ${className}`}>{text}</span>
 
       <div className="Taskoptions" >
-        <button className="btnSimple" onClick={showDetails}>
-          <img src={showIcon} alt="detalles"/>
-          </button>
-        <button className="btnSimple" onClick={delTask}>
-          <img src={delIcon} alt="eliminar"/>
-          </button>
+      <button 
+        className="btnSimple" 
+        onClick={(event) => {
+          event.stopPropagation(); // Detener propagación
+          showDetails();
+        }}
+      >
+        <img src={showIcon} alt="detalles" />
+      </button>
+      <button 
+        className="btnSimple" 
+        onClick={(event) => {
+          event.stopPropagation(); 
+          delTask();
+        }}
+        >
+        <img src={delIcon} alt="eliminar" />
+      </button>
       </div>
     </div>  
     )
