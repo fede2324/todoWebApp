@@ -1,15 +1,6 @@
 /* eslint-disable no-unused-vars */
-import mysql from 'mysql2/promise'
-import config from '../configs/db.js'
 import moment from 'moment'
-let conn
-
-try {
-  conn = await mysql.createConnection(config)
-} catch (e) {
-  console.log('Error on DB connection[TASKS]')
-  console.log('\n', e.message)
-}
+import conn from './dbConn.js'
 
 export default class TasksModel {
   static #setQuery = (custom = '') => {

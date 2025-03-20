@@ -5,7 +5,6 @@ export default class TasksController {
   static async createTask (req, res) {
     const idUser = req.user.id
 
-    console.log('!!datos:!! ', req.body)
     const validData = validTask(req.body)
 
     console.log(!validData.success ? validData.error.message : 'no mensaje')
@@ -33,7 +32,7 @@ export default class TasksController {
     try {
       const tasks = await TasksModel.getAll({ user: idUser })
 
-      if (tasks.length === 0) return res.status(404).json({ status: 'error', message: 'Task not found' })
+      if (tasks.length === 0) return res.status(200).json({ status: 'ok', qty: tasks.length, content: [] })
 
       return res.status(200).json({ status: 'ok', qty: tasks.length, content: tasks })
     } catch (e) {
@@ -62,6 +61,10 @@ export default class TasksController {
   static async updateTask (req, res) {
     const idUser = req.user.id
     const { idTask } = req.params
+
+    console.log('!!datos:!! ', req.body)
+    console.log('!!ID:!! ', idUser)
+
     const validData = validUpdate(req.body)
 
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })

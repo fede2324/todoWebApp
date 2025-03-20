@@ -3,7 +3,8 @@ import { useEffect, useRef, useState } from 'react'
 import moment from 'moment'
 import { z } from 'zod'
 //Hooks
-import useAlert from '../../../hooks/useAlert.jsx'
+import useAlert from '@hooks/useAlert.jsx'
+import useTasks from '@hooks/useTasks.jsx'
 // Style
 import '../styleModal.css'
 
@@ -60,6 +61,7 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
   
   
     const { showAlert } = useAlert();
+    const { create, update } = useTasks();
     useEffect(() => {
       if (!taskData?.id) return; // If taskData isn't exist or is empty leave with return
       if (taskData && taskData.id !== lastTaskId.current) {
@@ -83,6 +85,7 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
       if (mode === 'create'){       
         // Sanitization and Validation       
         try {
+
           taskSchema.parse(sanitizedData);
           setErrors({});
         } catch (error) {
@@ -97,16 +100,10 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
         }
         // Fetch to create Endpoint
         try {
-          const response = await fetch('/api/v1/tasks',{
-            method : 'POST',
-            headers: { "content-type": "application/json" },
-            credentials:'include',
-            body: JSON.stringify(sanitizedData)
-          })
-
-          if (!response.ok)throw new Error("No se pudo crear la tarea,intente de nuevo")          
-
-          showAlert('Tarea creada con exito','success')       
+          const result = await create(sanitizedData);
+          if (!result.success) {throw new Error(result.message)}
+          
+          showAlert('Tarea creada con exito','success') 
         } catch (e) {
           showAlert(e.message,'danger')    
         }finally{
@@ -128,23 +125,15 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
             return;
           }
 
-        try {
-          //Fetch to update Endpoint
-          await fetch(`/api/v1/tasks/${taskData.id}`,{
-            method : 'PATCH',
-            headers: { "content-type": "application/json" },
-            credentials:'include',
-            body: JSON.stringify(sanitizedData)
-          })
-          
-
-          // Show message to updated
-          showAlert('Tarea Actualizada con exito','success')
-        } catch (e) {
-          showAlert(e.message,'danger')
-        }finally{
-          close()
-        }
+          try {
+            const result = await update({id: taskData.id,input: sanitizedData});
+            if (!result.success) {throw new Error(result.message)}
+            showAlert('Tarea creada con exito','success') 
+          } catch (e) {
+            showAlert(e.message,'danger')    
+          }finally{
+            close()
+          }
       }
     }
 
@@ -192,7 +181,7 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
         <span>Tiempo limite: </span>
         <input
           type="datetime-local"
-          value={formData.limitTime}
+          value={formData?.limitTime || ''}
           onChange={(e) => setFormData({ ...formData, limitTime: e.target.value })}
           className="inputModal limitTime"
         />

@@ -1,6 +1,7 @@
 // hook
-import useHome  from '@hooks/useModal'
-import useAlert from "@hooks/useAlert"
+import useHome  from '@hooks/useModal.jsx'
+import useAlert from "@hooks/useAlert.jsx"
+import useTasks from "@hooks/useTasks.jsx"
 //Resources
 import showIcon from '@imgs/showIcon.svg'
 import delIcon  from '@imgs/delIcon.svg'
@@ -8,6 +9,7 @@ import delIcon  from '@imgs/delIcon.svg'
 
 const TaskCard = ({dataTask}) => {
   const { openModal } = useHome();
+  const { removeTask } = useTasks();
   const {showConfirm,showAlert}  = useAlert()
 
     const showDetails = ()=>{
@@ -16,16 +18,12 @@ const TaskCard = ({dataTask}) => {
 
     const deleteTask =async () => {
       try {
-        const response = await fetch(`/api/v1/tasks/${dataTask.id}`,{
-          method: 'DELETE',
-          credentials:'include'
-        })
-        if (!response.ok){ throw new Error('No se pudo eliminar la tarea')}
-        showAlert('Tarea eliminada','success');
+        const result = await removeTask(dataTask.id)
+        if(!result.success) {throw new Error(result.message)}
 
-
+        showAlert('Tarea eliminada con exito','success') 
       } catch (e) {
-        showAlert(e.message,'danger')
+        showAlert(e.message,'danger')    
       }
 
     }

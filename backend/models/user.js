@@ -1,13 +1,4 @@
-import mysql from 'mysql2/promise'
-import configDb from '../configs/db.js'
-let conn
-
-try {
-  conn = await mysql.createConnection(configDb)
-} catch (e) {
-  console.log('Error on DB connection[USERS]')
-  console.log('\n', e.message)
-}
+import conn from './dbConn.js'
 
 export class UserModel {
   static async getUser (userName) {

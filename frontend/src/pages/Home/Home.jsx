@@ -38,7 +38,6 @@ const Home = () => {
   //--------------- Fetching Tasks from API ---------------
 
   
-
   //Slices tasks and 
   const tasksPerPage = 10
   const currentPageTasks = tasks.slice(
@@ -53,8 +52,8 @@ const Home = () => {
       setCurrentPage(page);
     }
   };
-
-
+  
+  
 
   return (
     <>

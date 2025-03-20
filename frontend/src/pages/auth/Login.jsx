@@ -3,6 +3,7 @@ import { useState} from "react";
 import { Navigate, useNavigate } from "react-router-dom"
 // Hooks
 import useAuth  from '@hooks/useAuth.jsx'
+import useTasks  from '@hooks/useTasks.jsx'
 import useAlert from "@hooks/useAlert.jsx";
 //Components
 import Message from "@components/Message.jsx";
@@ -14,8 +15,9 @@ const Login = () => {
   const [formData, setFormData] = useState({username:'',passwd:''})
   const [errors, setErrors] = useState({username: '', passwd: '',login:''});
   // const [visible, setVisible] = useState(false)
-  const { logIn,loading, user } = useAuth()
   const navigate = useNavigate()
+  const {fetchTasks} = useTasks()
+  const { logIn,loading, user } = useAuth()
   const { alert, showAlert } = useAlert();
 
 
@@ -58,7 +60,7 @@ const Login = () => {
         const result = await logIn({ username: formData.username, password: formData.passwd });
         if (result) showAlert(result, 'danger');
         if (user) navigate('/alltasks');
-        console.log('RESULT-LOGIN: ', result)
+        fetchTasks()
     } catch (e) {
             console.error('Error en login:', e.message);
             setErrors({ general: 'Error al intentar iniciar sesión' });
