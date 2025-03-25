@@ -87,40 +87,46 @@ const currentPageTasks = sortedTasks.slice(
         </header>
         {/* USERMENU */}
         <UserMenu/>
-        {/* MAIN CONTENT */}
-        <div className="homeContent">
-        {/* FILTER SIDEBAR */}
-        <aside className={`filters ${filterBar ? 'visible' : ''}`} ref={sideRef} >
-          <h3 className="filtersTitle">FILTROS</h3>
-          <div className="filterList">
-              <button className="btnSimple filter item">Nuevas</button>
-              <button className="btnSimple filter item">En proceso</button>
-              <button className="btnSimple filter item">Completas</button>
-          </div>
-        </aside>
-          <div className="searchBox" ><input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/></div>
-          <div className="contentTasks" >
-          {currentPageTasks.length === 0 ? (
-            <div className="noFound">
-              <h3>Tareas no encontradas</h3>
-              <img src={taskIcon} alt="tareas" />
+
+        <main>
+          {/* SIDEBAR */}
+          <aside className={`filters ${filterBar ? 'visible' : ''}`} ref={sideRef} >
+            <h3 className="filtersTitle">FILTROS</h3>
+            <div className="filterList">
+                <button className="btnSimple filter item">Nuevas</button>
+                <button className="btnSimple filter item">En proceso</button>
+                <button className="btnSimple filter item">Completas</button>
             </div>
-          ) : (<>
-            <h2 className="title" >Tareas</h2>
-            <div className="sort">
-              <select onChange={(e) => setOrder(e.target.value)} value={order}>
-                  <option value="latest">Recientes</option>
-                  <option value="oldest">Antiguos</option>
-                  <option value="toExpire">Proximo a vencer</option>
-              </select>
-            </div>
-            {currentPageTasks.map((task, index) => (       
-                <TaskCard dataTask={task} key={index} />
-              )
+          </aside>
+          {/* MAIN CONTENT */}
+          <div className="homeContent">
+          {/* FILTER SIDEBAR */}
+            <div className="searchBox" ><input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/></div>
+            <div className="contentTasks" >
+            {currentPageTasks.length === 0 ? (
+              <div className="noFound">
+                <h3>Tareas no encontradas</h3>
+                <img src={taskIcon} alt="tareas" />
+              </div>
+            ) : (<>
+              <h2 className="title" >Tareas</h2>
+              <div className="sort">
+                <select onChange={(e) => setOrder(e.target.value)} value={order}>
+                    <option value="latest">Recientes</option>
+                    <option value="oldest">Antiguos</option>
+                    <option value="toExpire">Proximo a vencer</option>
+                </select>
+              </div>
+              {currentPageTasks.map((task, index) => (       
+                  <TaskCard dataTask={task} key={index} />
+                )
+              )}
+            </>
+              
             )}
-          </>
-            
-          )}
+          </div>
+          </div>
+          {/* PAGES BOTTONS */}
           <div className="btnPages">
             <button
                 className="btn changePage btn-secondary"
@@ -137,9 +143,8 @@ const currentPageTasks = sortedTasks.slice(
                 <img src={nextIcon} alt="Siguiente" />
             </button>
           </div>
-          </div>
           <button className="btn addTask" onClick={()=>openModal('create')} >+</button>
-        </div>
+        </main>
     </>
   )
 }

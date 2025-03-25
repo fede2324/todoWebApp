@@ -57,7 +57,7 @@ const TaskCard = ({dataTask}) => {
           showDetails();
         }}
       >
-        <img src={showIcon} alt="detalles" />
+        <img src={showIcon} alt="detalles" className='cardIcon'/>
       </button>
       <button 
         className="btnSimple" 
@@ -66,7 +66,7 @@ const TaskCard = ({dataTask}) => {
           delTask();
         }}
         >
-        <img src={delIcon} alt="eliminar" />
+        <img src={delIcon} alt="eliminar" className='cardIcon'/>
       </button>
       </div>
     </div>  

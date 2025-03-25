@@ -207,6 +207,14 @@ header{
   margin-bottom: 10px;
 }
 
+main{
+  height: 95dvh;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10% 70% 20%;
+  grid-column-gap: 20px;
+}
+
 
 
 .logoHeader{
@@ -234,7 +242,7 @@ header{
   justify-content: end;
 }
 .sort select{
-  height: 30%;
+  height: 100%;
   padding: 8px;
   border-radius: 8px;
 }
@@ -244,10 +252,10 @@ header{
 .homeContent {
   width: 100%;
   height: 100dvh;
-  row-gap: 5px;
-  display: grid;
-  grid-template-rows: 10% 65% 25%;
+  grid-area: 1 / 1 / 3 / 2;
 }
+
+
 
 
 .confirmMessage.modal{
@@ -393,6 +401,10 @@ header{
   background-color: rgb(105, 255, 85);
 }
 
+.cardIcon{
+  width: 90%;
+}
+
 .Taskoptions{
   width: 100%;
   display: flex;
@@ -434,6 +446,7 @@ header{
   align-items: center;
   padding: 20px;
   justify-content: space-around;
+  grid-area: 3 / 1 / 4 / 2;
 }
 .changePage{
   width: 60px;
@@ -453,32 +466,42 @@ header{
 
 /* Table and rotate mobiles */
 @media (min-width:730px){
-  header{margin-bottom: 0;}
+  header{
+    margin-bottom: 0;
+    padding: 8px 15px;
+  }
   .userMenu{
     width: 20%;
   }
-  .homeContent {
-    height: max-content;
-    grid-template-columns: 30% 70%;
-    /* grid-template-rows: 10% 90%; */
-    grid-template-rows: 10% 65% 25%;
-    
-    justify-items: center;
-}
-.contentTasks{
-  max-width: 90%;
-}
+
   .searchBox{
     width: 100%;
   }
+
+  main{
+    height: 95dvh;
+    display: grid;
+    grid-template-columns: 1fr 80%;
+    grid-template-rows: 10% 70% 20%;
+    grid-column-gap: 20px;
+    }
+
+  .homeContent{
+    grid-area: 1 / 2 / 3 / 3;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .contentTasks{
+    align-items: center;
+  }
   
   .filters {
+    grid-area: 1 / 1 / 4 / 2;
     width: 100%;
     height: 100%;
     transform: scaleX(1);
-    grid-column: 1; /* Se queda en la primera columna */
-    grid-row: 1 / span 2; /* Abarca todo menos la barra superior */
-    position: static; /* Evita que se sobreponga */
+    position: static; 
   }
   
   
@@ -488,11 +511,12 @@ header{
   
 
   .taskCard{
-    width: 100%;
+    max-width: 1020px;
   }
 
   .addTask{
-    bottom: 15px;
+    bottom: 40px;
+    right: 20px;
   }
 
   .modalForm{
@@ -509,6 +533,13 @@ header{
     margin: 0 5px;
   }
 
+  .btnPages {
+    grid-area: 3 / 2 / 4 / 3;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
   .btns{
     margin-top: 5px;
     display: flex;
@@ -518,18 +549,35 @@ header{
     width: 100px;
     margin: 10px;
   }
+
+  .btns.confirmMessage button{
+    height: 34px;
+    padding: 5px;
+    font-size: 14px;
+    margin: 8px;
+  }
+
 }
 
 @media (min-width:1020px){
+  .userMenu{
+    width: 160px;
+  }
 
   .homeContent {
     grid-template-columns: 25% 75%;
     grid-template-rows: 10% 90%;
-    justify-items: center;
+    justify-items: center;}
 
+  
+  .btnPages{
+      grid-area: 3 / 2 / 4 / 3;
+      margin-top: 5px;
+      display: flex;
+      justify-content: space-evenly;
+  }
   .taskCard{
     height: 100%;
-    padding: 0;
+    padding: 2px 10px;
   }
-}
 }
