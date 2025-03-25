@@ -122,6 +122,11 @@
     padding: 8px;
 }
 
+.description.inputModal{
+    resize: none;
+    padding: 8px;
+}
+
 .descriptionDetails>h2{
     font-size: 18px;
 }
