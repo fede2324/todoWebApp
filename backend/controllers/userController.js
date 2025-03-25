@@ -4,6 +4,7 @@ import { validateUser } from './schemes/userScheme.js'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 const secretKey = process.env.SECRET
+const isProduction = process.env.NODE_ENV === 'production'
 
 export class UserController {
   // Private fuction to validate existence of user on DB
@@ -101,7 +102,7 @@ export class UserController {
       // Establecer la cookie y devolver la respuesta
       return res.cookie('token', token, {
         httpOnly: true,
-        secure: true,
+        secure: isProduction, // solo HTTPS en producción
         sameSite: 'Strict',
         maxAge: 3600000
       }).status(200).json({ status: 'ok', user: userData })

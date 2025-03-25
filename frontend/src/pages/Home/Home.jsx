@@ -29,21 +29,34 @@ const Home = () => {
   const [currentPage,setCurrentPage] = useState(1)
   const {alert,confirm} = useAlert()
   const sideRef = useRef(null) 
+  const [order,setOrder] = useState('latest')
   const { openModal,displayMenu } = useHome()
 
-  const isDesktop = useMediaQuery('(min-width: 768px)');
+  const isDesktop = useMediaQuery('(min-width: 720px)');
   useClickOutside(sideRef,() => setFilterBar(false), !isDesktop)
 
 
   //--------------- Fetching Tasks from API ---------------
 
-  
-  //Slices tasks and 
-  const tasksPerPage = 10
-  const currentPageTasks = tasks.slice(
+  const sortedTasks = [...tasks].sort((a, b) => {
+    if (order === "latest") {
+        return new Date(b.updatedAt) - new Date(a.updatedAt); 
+    } else if (order === "oldest") {
+        return new Date(a.updatedAt) - new Date(b.updatedAt); 
+    } else {
+        const dateA = a.limitTime ? new Date(a.limitTime) : Infinity;
+        const dateB = b.limitTime ? new Date(b.limitTime) : Infinity;
+        return dateA - dateB; // Próximos a vencer
+    }
+});
+
+// Aplicar paginación después del ordenamiento
+const tasksPerPage = isDesktop ? 10 : 8;
+const currentPageTasks = sortedTasks.slice(
     (currentPage - 1) * tasksPerPage,
     currentPage * tasksPerPage
-  );
+);
+
   const totalPages = Math.ceil(tasks.length / tasksPerPage);
 
   //Handler change page
@@ -62,9 +75,11 @@ const Home = () => {
       {/* ModalBackground to show create, edit or details of tasks */}
         <ModalContainer/>
         <header>
-          <button className="btnSimple btnHeader" onClick={() => setFilterBar(prev => !prev)} >
+          {!isDesktop && (       
+            <button className="btnSimple btnHeader" onClick={() => setFilterBar(prev => !prev)} >
             <img src={menuIcon} alt="menu de filtros"/>
           </button>
+          )}
           <h1><img className="logoHeader"  src={logo} alt="logo"/></h1>
           <button className="btnSimple btnHeader" onClick={()=>displayMenu(prev => !prev)} >
             <img src={userIcon} alt="menu de usuario"/>
@@ -72,6 +87,8 @@ const Home = () => {
         </header>
         {/* USERMENU */}
         <UserMenu/>
+        {/* MAIN CONTENT */}
+        <div className="homeContent">
         {/* FILTER SIDEBAR */}
         <aside className={`filters ${filterBar ? 'visible' : ''}`} ref={sideRef} >
           <h3 className="filtersTitle">FILTROS</h3>
@@ -81,10 +98,7 @@ const Home = () => {
               <button className="btnSimple filter item">Completas</button>
           </div>
         </aside>
-        {/* MAIN CONTENT */}
-        <div className="homeContent">
-          <input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/>
-          
+          <div className="searchBox" ><input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/></div>
           <div className="contentTasks" >
           {currentPageTasks.length === 0 ? (
             <div className="noFound">
@@ -93,6 +107,13 @@ const Home = () => {
             </div>
           ) : (<>
             <h2 className="title" >Tareas</h2>
+            <div className="sort">
+              <select onChange={(e) => setOrder(e.target.value)} value={order}>
+                  <option value="latest">Recientes</option>
+                  <option value="oldest">Antiguos</option>
+                  <option value="toExpire">Proximo a vencer</option>
+              </select>
+            </div>
             {currentPageTasks.map((task, index) => (       
                 <TaskCard dataTask={task} key={index} />
               )
@@ -100,16 +121,24 @@ const Home = () => {
           </>
             
           )}
-          </div>
           <div className="btnPages">
-            <button className="btn changePage btn-secondary" onClick={()=>handlePageChange(currentPage - 1)}>
-              <img src={pastIcon} alt="Anterior" />
+            <button
+                className="btn changePage btn-secondary"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+            >
+                <img src={pastIcon} alt="Anterior" />
             </button>
-            <button className="btn changePage btn-secondary" onClick={()=>handlePageChange(currentPage + 1)}>
-              <img src={nextIcon} alt="siguiente" />
+            <button
+                className="btn changePage btn-secondary"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+            >
+                <img src={nextIcon} alt="Siguiente" />
             </button>
           </div>
-        <button className="btn addTask" onClick={()=>openModal('create')} >+</button>
+          </div>
+          <button className="btn addTask" onClick={()=>openModal('create')} >+</button>
         </div>
     </>
   )

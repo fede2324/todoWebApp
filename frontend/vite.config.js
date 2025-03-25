@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 export default defineConfig(() => ({ // Only Dev mode
   plugins: [react()],
   server: {
+    host: true,
     proxy: {
       '/api': {
         target: 'http://localhost:8080',

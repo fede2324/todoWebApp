@@ -1,24 +1,23 @@
 import cors from 'cors'
 
-const ACCEPTED_ORIGINS = [
-  'http://localhost:8080',
-  'http://localhost:5173',
-  'http://localhost:4173'
-]
+const getAcceptedOrigins = () => {
+  const envOrigins = process.env.ACCEPTED_ORIGINS || ''
+  return envOrigins.split(',').map(origin => origin.trim())
+}
 
-const corsConfig = ({ accepterdOrigins = ACCEPTED_ORIGINS } = {}) => cors({
-  origin: (origin, callback) => {
-    if (accepterdOrigins.includes(origin)) {
-      return callback(null, true)
-    }
+const corsConfig = () => {
+  const acceptedOrigins = getAcceptedOrigins()
 
-    if (!origin) {
-      return callback(null, true)
-    }
+  return cors({
+    origin: (origin, callback) => {
+      if (!origin || acceptedOrigins.includes(origin)) {
+        return callback(null, true)
+      }
 
-    return callback(new Error('Not allowed by CORS'))
-  },
-  credentials: true // Allow Cookies
-})
+      return callback(new Error(`Not allowed by CORS: ${origin}`))
+    },
+    credentials: true
+  })
+}
 
 export default corsConfig
