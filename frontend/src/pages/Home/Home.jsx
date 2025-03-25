@@ -93,10 +93,10 @@ const currentPageTasks = sortedTasks.slice(
           <aside className={`filters ${filterBar ? 'visible' : ''}`} ref={sideRef} >
             <h3 className="filtersTitle">FILTROS</h3>
             <div className="filterList">
-                <button className="btnSimple filter item"  >Todas</button>
-                <button className="btnSimple filter item"  >Nuevas</button>
-                <button className="btnSimple filter item"  >En proceso</button>
-                <button className="btnSimple filter item"  >Canceladas</button>
+                <button className="btnSimple filter item">Todas</button>
+                <button className="btnSimple filter item">Nuevas</button>
+                <button className="btnSimple filter item">En proceso</button>
+                <button className="btnSimple filter item">Completas</button>
             </div>
           </aside>
           {/* MAIN CONTENT */}
