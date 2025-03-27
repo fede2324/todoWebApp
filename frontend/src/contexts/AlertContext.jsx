@@ -1,24 +1,27 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext,useState, useCallback, useEffect } from 'react';
+import { createContext,useState, useCallback} from 'react';
 
 export const AlertContext = createContext();
 
 export const AlertProvider = ({ children }) => {
-  const [alert, setAlert] = useState({ message: '', type: '', visible: false });
   const [confirm, setConfirm] = useState({ message: '', visible: false, value : '' });
+  const [alerts, setAlerts] = useState([]); // Array to manage multiple alerts
+  let counter = 0;
 
-  const showAlert = useCallback((message, type = 'danger') => {
-    setAlert({ message, type, visible: true });
-  }, []);
+  const showAlert = useCallback((message, type = "danger") => {
+      const id = `${Date.now()}-${counter++}`; // Unique ID using Date.now() and counter
+      setAlerts((prevAlerts) => {
+        const newAlerts = [...prevAlerts, { id, message, type, visible: true }];
+        return newAlerts.slice(-5); // Limit to 5 alerts
+    });
+      // Remove alert after 5 seconds
+      setTimeout(() => {
+          setAlerts((prevAlerts) =>
+              prevAlerts.filter((alert) => alert.id !== id)
+          );
+      }, 5000);
+  }, [counter]);
 
-  useEffect(() => {
-    if (alert.visible) {
-      const timer = setTimeout(() => {
-        setAlert((prev) => ({ ...prev, visible: false }));
-    }, 5000);
-    return () => clearTimeout(timer); // Cleanup
-}
-}, [alert.visible]);
 
   const showConfirm = useCallback((message, onConfirm) => {
     setConfirm({message,visible: true, onConfirm 
@@ -37,7 +40,7 @@ export const AlertProvider = ({ children }) => {
   };
 
   return (
-    <AlertContext.Provider value={{ alert, showAlert,showConfirm, confirm,handleConfirm,handleCancel }}>
+    <AlertContext.Provider value={{ alerts, showAlert,showConfirm, confirm,handleConfirm,handleCancel }}>
       {children}
     </AlertContext.Provider>
   );

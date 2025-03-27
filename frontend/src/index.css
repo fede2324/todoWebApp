@@ -208,10 +208,10 @@ header{
 }
 
 main{
-  height: max-content;
+  height: 100vh;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 10% 70% 20%;
+  grid-template-rows: 10% 85% 1fr;
   grid-column-gap: 20px;
 }
 
@@ -374,6 +374,7 @@ main{
   justify-items: center;
   grid-template-columns: repeat(2,40%) 20%;
   padding: 5px 10px;
+  border: none;
   border-radius: 15px;
   background-color: var(--primary);
   box-shadow: 2px 3px 4px 1px #00000081;
@@ -448,7 +449,7 @@ main{
 
 .btnPages{
   width: 100%;
-  height: 80%;
+  height: 20%;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -470,6 +471,8 @@ main{
   width: 35%;
 }
 
+
+
 /* Table and rotate mobiles */
 @media (min-width:730px){
   header{
@@ -479,12 +482,16 @@ main{
   .userMenu{
     width: 20%;
   }
+  .userBtn{
+    margin-right: 20px;
+  }
 
   .searchBox{
     width: 100%;
   }
 
   main{
+    height: max-content;
     display: grid;
     grid-template-columns: 1fr 80%;
     grid-template-rows: 10% 80% 10%;
@@ -541,6 +548,15 @@ main{
     margin: 0 5px;
   }
 
+  /* Color to limitTime */
+  .taskCard.expire{
+    border: 2px solid #ff6b6b;
+  }
+  .taskCard.toExpire{
+    border: 2px solid #ffae6b;
+  }
+
+
   .btnPages {
     grid-area: 3 / 2 / 4 / 3;
     margin-top: 5px;
@@ -557,11 +573,21 @@ main{
     margin: 10px;
   }
 
+
+
   .btns.confirmMessage button{
     height: 34px;
     padding: 5px;
     font-size: 14px;
     margin: 8px;
+  }
+
+  .sort{
+    width: 960px;
+    margin-bottom: 5px;
+    padding: 0 8px;
+    display: flex;
+    justify-content: end;
   }
 
 }

@@ -85,6 +85,18 @@
     display: flex;
     justify-content: space-around;
 }
+
+.dataDetails.limit.expire::before {
+    content: "⚠️"; 
+    font-size: 1.2em;
+}
+.dataDetails.limit.toExpire::before {
+    content: "⏳";
+    color: orange;
+    font-size: 1.2em;
+}
+
+
 .inputModal.limitTime{
     width: 55%;
     border-radius: 8px;

@@ -18,7 +18,7 @@ const Login = () => {
   const navigate = useNavigate()
   const {fetchTasks} = useTasks()
   const { logIn,loading, user } = useAuth()
-  const { alert, showAlert } = useAlert();
+  const { showAlert } = useAlert();
 
 
 
@@ -72,7 +72,7 @@ const Login = () => {
 
   return (
     <div className="content" >
-      {alert.visible && <Message message={alert.message} type={alert.type} />}
+       <Message/> {/*Alert message */}
       <div className="modal">
           <div className="logoLogin">
           <img src={logo} alt="logoTodoApp" className="logoForm"/>
