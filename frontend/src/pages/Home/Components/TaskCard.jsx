@@ -36,35 +36,33 @@ const TaskCard = ({dataTask}) => {
         new: { className: 'status--new', text: 'Nueva' },
         'in-progress': { className: 'status--progress', text: 'En proceso' },
         done: { className: 'status--done', text: 'Completa' },
+        cancel: { className: 'status--cancel', text: 'Cancelada'}
     };
     const { className, text } = statusType[dataTask.status] || statusType['new'];
 
     return(
-      <button className={`taskCard ${clase}`} role='button' onClick={showDetails} >
-      <h2 className="taskCard__title">{dataTask.title}</h2>
-      <span className={`taskCard__status ${className}`}>{text}</span>
-
-      <div className="Taskoptions" >
+    <div className={`taskCard ${clase}`}>
+      {/* Contenido que abre detalles */}
       <button 
-        className="btnSimple" 
-        onClick={(event) => {
-          event.stopPropagation(); // Detener propagación
-          showDetails();
-        }}
+        onClick={showDetails}
+        className="taskContent"
       >
-        <img src={showIcon} alt="detalles" className='cardIcon'/>
+        <h2 className="taskCard__title">{dataTask.title}</h2>
+        <span className={`taskCard__status ${className}`}>{text}</span>
       </button>
-      <button 
-        className="btnSimple" 
-        onClick={(event) => {
-          event.stopPropagation(); 
-          delTask();
-        }}
-        >
-        <img src={delIcon} alt="eliminar" className='cardIcon'/>
-      </button>
+
+      {/* Botones separados */}
+      <div className="Taskoptions">
+        <button className="btnSimple" onClick={(event) => { event.stopPropagation(); showDetails(); }}>
+          <img src={showIcon} alt="detalles" className="cardIcon" />
+        </button>
+        <button className="btnSimple" onClick={(event) => { event.stopPropagation(); delTask(); }}>
+          <img src={delIcon} alt="eliminar" className="cardIcon" />
+        </button>
       </div>
-    </button>  
+      
+    </div>
+
     )
 } 
 

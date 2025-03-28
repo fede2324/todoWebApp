@@ -25,6 +25,7 @@ const ModalDetails = ({data,close}) => {
     new: { className: 'status--new', text: 'Nueva' },
     'in-progress': { className: 'status--progress', text: 'En proceso' },
     done: { className: 'status--done', text: 'Completa' },
+    cancel: { className: 'status--cancel', text: 'Cancelada'}
 };
 const { className, text } = statusType[data.status] || statusType['new'];
 
@@ -57,7 +58,7 @@ const { className, text } = statusType[data.status] || statusType['new'];
         <p>{data.description}</p>
       </div>
       <div className="editBtn">
-        <button className="btnSimple" onClick={edit}>
+        <button className="btnSimple" onClick={edit} disabled={data.status === 'cancel' && true}>
           <img src={editIcon} alt="Editar"/>
         </button>
       </div>
