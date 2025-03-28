@@ -1,6 +1,10 @@
-import {useState} from 'react'
+//External
+import { useEffect, useState } from 'react'
+
+// Hooks
 import useTasks from "@hooks/useTasks.jsx"
 import { useMediaQuery } from "@hooks/useMediaQuery.jsx"
+import useAlert from "@hooks/useAlert.jsx"
 
 // Resources
 import taskIcon from '@imgs/taskIcon.svg'
@@ -13,6 +17,25 @@ const TaskContent = () => {
     const {tasks} = useTasks();
     const [order,setOrder] = useState('latest')
     const [currentPage,setCurrentPage] = useState(1)
+    const {showAlert}  = useAlert()
+
+    //Check task expire
+    useEffect(() => {
+      const today = new Date();
+      tasks.forEach(task => {
+          if (!task.limitTime) return;
+
+          const due = new Date(task.limitTime);
+          const diffDays = (due - today) / (1000 * 60 * 60 * 24);
+
+          if (diffDays < 0) {
+              showAlert(`La tarea "${task.title}" ha vencido.`, "error");
+          } else if (diffDays <= 2) {
+              showAlert(`La tarea "${task.title}" está por vencer.`, "warning");
+          }
+      });
+    }, [tasks,showAlert]);
+
 
     // Pages in base of device
     const isDesktop = useMediaQuery('(min-width: 720px)');
@@ -45,8 +68,10 @@ const TaskContent = () => {
         }
       };
 
+
   return (
     <>
+        {/* TASK CONTENT */}
         <div className="homeContent">
             <div className="searchBox" ><input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/></div>
             <div className="contentTasks" >
@@ -73,8 +98,8 @@ const TaskContent = () => {
             )}
           </div>
         </div>
-            {/* PAGES BOTTONS */}
-            <div className="btnPages">
+        {/* PAGES BOTTONS */}
+        <div className="btnPages">
             <button
                 className="btn changePage btn-secondary"
                 onClick={() => handlePageChange(currentPage - 1)}
@@ -89,7 +114,7 @@ const TaskContent = () => {
             >
                 <img src={nextIcon} alt="Siguiente" />
             </button>
-    </div>
+        </div>
     </>
   )
 }

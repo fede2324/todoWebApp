@@ -12,7 +12,7 @@ export const AlertProvider = ({ children }) => {
       const id = `${Date.now()}-${counter++}`; // Unique ID using Date.now() and counter
       setAlerts((prevAlerts) => {
         const newAlerts = [...prevAlerts, { id, message, type, visible: true }];
-        return newAlerts.slice(-5); // Limit to 5 alerts
+        return newAlerts
     });
       // Remove alert after 5 seconds
       setTimeout(() => {
