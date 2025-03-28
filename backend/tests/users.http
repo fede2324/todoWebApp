@@ -7,15 +7,16 @@ POST {{baseURL}}/users
 Content-Type : application/json
 
 {
-    "username" : "testuser",
-    "password" : "12345678"
+    "username" : "API-TEST",
+    "password" : "12345678",
+    "confirmPassword":"12345678"
 }
 ### Log in of user (other UserTest)
 POST {{baseURL}}/users/auth/login
 Content-Type: application/json
 
 {
-    "username": "mochaUser",
+    "username": "API-TEST",
     "password": "12345678"
 }
 

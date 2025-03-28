@@ -55,17 +55,26 @@ export default class TasksModel {
     }
   }
 
-  static async getAll ({ user }) {
+  static async getAll ({ user, status }) {
     if (!user) return []
 
-    try {
-      const [tasks] = await conn.query(this.#setQuery(), [user])
-
-      if (tasks.length === 0) return []
-
-      return tasks
-    } catch (e) {
-      console.log('An error ocurred: ', e.message)
+    if (status) {
+      try {
+        console.log(this.#setQuery('AND status=?'))
+        const [tasks] = await conn.query(this.#setQuery('AND status=?'), [user, status])
+        if (tasks.length === 0) return []
+        return tasks
+      } catch (e) {
+        console.log('An error ocurred: ', e.message)
+      }
+    } else {
+      try {
+        const [tasks] = await conn.query(this.#setQuery(), [user])
+        if (tasks.length === 0) return []
+        return tasks
+      } catch (e) {
+        console.log('An error ocurred: ', e.message)
+      }
     }
   }
 

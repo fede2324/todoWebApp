@@ -26,12 +26,12 @@ export default class TasksController {
 
   static async getAll (req, res) {
     const idUser = req.user.id
+    const query = req.query.status
 
     if (!idUser) return res.status(404).json({ status: 'error', message: 'Invalid userId' })
 
     try {
-      const tasks = await TasksModel.getAll({ user: idUser })
-
+      const tasks = await TasksModel.getAll({ user: idUser, status: query })
       if (tasks.length === 0) return res.status(200).json({ status: 'ok', qty: tasks.length, content: [] })
 
       return res.status(200).json({ status: 'ok', qty: tasks.length, content: tasks })

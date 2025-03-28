@@ -3,7 +3,7 @@ import moment from 'moment'
 
 const taskBaseSchema = z.object({
   title: z.string().min(1, { message: "The title can't be empty" }).max(20, { message: 'title max 20 long' }),
-  status: z.enum(['new', 'in-progress', 'done','cancel']),
+  status: z.enum(['new', 'in-progress', 'done', 'cancel']),
   description: z.string(),
   createdAt: z.string(),
   updatedAt: z.string(),

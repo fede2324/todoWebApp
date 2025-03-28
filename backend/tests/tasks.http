@@ -10,14 +10,17 @@ content-type : application/json
     "title" :"DELETE ME 21" ,
     "status":"new",
     "description" :"This is a task ONLY TEST, to try create a new task",
-    "createdAt": "2024-01-21T11:11:00Z",
-    "updatedAt": "2024-01-21T11:11:00Z",
+    "createdAt": "2025-03-23T11:11:00Z",
+    "updatedAt": "2025-03-23T11:11:00Z",
     "limitTime": null
 }
 
 
 ### ALL TASKS (OF A USER LOGED)
 GET {{baseURL}}/tasks
+
+### ALL TASKS in base of "STATUS" (OF A USER LOGED)
+GET {{baseURL}}/tasks?status=new
 
 
 ### GET TASKS IN BASE ID-TASKS
@@ -29,13 +32,14 @@ GET {{baseURL}}/tasks?search=TITLE
 
 
 ### UPDATE TASK BY ID
-PATCH  {{baseURL}}/tasks/03abd043-effa-11ef-ab16-0250c91cb3a6
+PATCH  {{baseURL}}/tasks/5809a4e2-0b72-11f0-a505-0a0027000009
 content-type : application/json
 {
     "status":"done",
     "updatedAt": "2024-04-24T06:15:00Z",
     "limitTime": null
 }
+credentials: 'include'
 
 ### DELETE TASK BY ID-TASK
 DELETE {{baseURL}}/tasks/6782af6f-f3cd-11ef-91bb-0250c91cb3a6
