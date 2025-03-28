@@ -128,7 +128,7 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
           try {
             const result = await update({id: taskData.id,input: sanitizedData});
             if (!result.success) {throw new Error(result.message)}
-            showAlert('Tarea creada con exito','success') 
+            showAlert('Tarea actualizada con exito','success') 
           } catch (e) {
             showAlert(e.message,'danger')    
           }finally{
@@ -154,9 +154,10 @@ const ModalTaskForm = ({mode,taskData={},close}) => {
           onChange={(e) => setFormData({ ...formData, status: e.target.value })}
           className="statusTask"
         >
-          <option  value="new">Nuevo</option>
+          <option value="new">Nuevo</option>
           <option value="in-progress">En proceso</option>
-          <option value="done">Completo</option>0
+          <option value="done">Completo</option>
+          <option value="cancel">Cancelado</option>
         </select>
         </div>
         <div className="timeTask">

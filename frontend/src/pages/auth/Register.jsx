@@ -113,7 +113,7 @@ const Register = () => {
 
   return (
     <div className="content" >
-      {alert.visible && <Message message={alert.message} type={alert.type} />}
+      <Message/> {/*Alert message */}
       <div className="modal">
         <div className="back">
           <button className="btnIcon" onClick={()=> navigate('/login')}>
