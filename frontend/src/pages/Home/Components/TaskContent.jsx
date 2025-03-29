@@ -14,10 +14,12 @@ import pastIcon from '@imgs/pastIcon.svg'
 import TaskCard from "./TaskCard.jsx"
 
 const TaskContent = () => {
-    const {tasks} = useTasks();
+    const {tasks} = useTasks(); //original tasks
+    const [filteredTasks, setFilteredTasks] = useState([]) //found by title
     const [order,setOrder] = useState('latest')
     const [currentPage,setCurrentPage] = useState(1)
     const {showAlert}  = useAlert()
+    const [ search, setSearch ] = useState('')
 
     //Check task expire
     useEffect(() => {
@@ -37,10 +39,24 @@ const TaskContent = () => {
     }, [tasks,showAlert]);
 
 
+    useEffect(() => {
+      if (search.trim() === "") {
+          // Si no hay búsqueda, no hay tareas filtradas, usa el original
+          setFilteredTasks([]);
+      } else {
+          // Filtra las tareas según la búsqueda
+          const results = tasks.filter(({ title }) =>
+              title.toLowerCase().includes(search.toLowerCase())
+          );
+          setFilteredTasks(results);
+        }
+      }, [search, tasks]);
+      
+      const displayTasks = filteredTasks.length > 0 ? filteredTasks : tasks;
     // Pages in base of device
     const isDesktop = useMediaQuery('(min-width: 720px)');
     
-    const sortedTasks = [...tasks].sort((a, b) => {
+    const sortedTasks = [...displayTasks].sort((a, b) => {
         if (order === "latest") {
             return new Date(b.updatedAt) - new Date(a.updatedAt); 
         } else if (order === "oldest") {
@@ -59,7 +75,7 @@ const TaskContent = () => {
         currentPage * tasksPerPage
     );
 
-    const totalPages = Math.ceil(tasks.length / tasksPerPage);
+    const totalPages = Math.ceil(displayTasks.length / tasksPerPage);
 
     //Handler change page
     const handlePageChange = (page) => {
@@ -73,7 +89,15 @@ const TaskContent = () => {
     <>
         {/* TASK CONTENT */}
         <div className="homeContent">
-            <div className="searchBox" ><input type="text"  placeholder="Buscar por titulo" className="searchBar textField"/></div>
+            <div className="searchBox" >
+            <input 
+                type="text"
+                placeholder="Buscar por título"
+                className="searchBar textField"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+            />
+              </div>
             <div className="contentTasks" >
             {currentPageTasks.length === 0 ? (
               <div className="noFound">

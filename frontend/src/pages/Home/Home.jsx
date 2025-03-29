@@ -6,6 +6,7 @@
  import {useClickOutside} from "@hooks/useOutsideClick.jsx"
  import useAlert from "@hooks/useAlert.jsx"
  import useHome  from "@hooks/useModal.jsx"
+ import useTasks  from "@hooks/useTasks.jsx"
  
  // Resources
  import logo     from '@imgs/logoTodo.svg'
@@ -22,7 +23,7 @@
  import TaskContent from "./Components/TaskContent.jsx";
  
  const Home = () => {
-   // const {tasks} = useTasks();
+   const {setStatus, status} = useTasks();
    const [filterBar,setFilterBar] = useState(false);
    const {confirm} = useAlert()
    const sideRef = useRef(null) 
@@ -60,10 +61,11 @@
            <aside className={`filters ${filterBar ? 'visible' : ''}`} ref={sideRef} >
              <h3 className="filtersTitle">FILTROS</h3>
              <div className="filterList">
-                 <button className="btnSimple filter item"  >Todas</button>
-                 <button className="btnSimple filter item"  >Nuevas</button>
-                 <button className="btnSimple filter item"  >En proceso</button>
-                 <button className="btnSimple filter item"  >Canceladas</button>
+                 <button onClick={()=>setStatus('all')} className={`btnSimple filter item ${status === 'all'&& 'active'}`}>Todas</button>
+                 <button onClick={()=>setStatus('new')} className={`btnSimple filter item ${status === 'new'&& 'active'}`}>Nuevas</button>
+                 <button onClick={()=>setStatus('in-progress')} className={`btnSimple filter item ${status === 'in-progress' && 'active'}`}>En proceso</button>
+                 <button onClick={()=>setStatus('done')} className={`btnSimple filter item ${status === 'done' && 'active'}`}>Completas</button>
+                 <button  onClick={()=>setStatus('cancel')} className={`btnSimple filter item ${status === 'cancel' && 'active'}`}>Canceladas</button>
              </div>
            </aside>
            {/* MAIN CONTENT */}

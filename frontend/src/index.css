@@ -494,6 +494,13 @@ button:disabled{
   opacity: 0.7;
 }
 
+.filter.active{
+  opacity: 0.7;
+  cursor: pointer;
+  color: #bd2929;
+  border-bottom:1px solid #bd2929;
+}
+
 /* Table and rotate mobiles */
 @media (min-width:730px){
   header{
@@ -543,6 +550,8 @@ button:disabled{
   
   .searchBar{
     width: 60%;
+    height: 35px;
+    font-size: 16px;
   }
   
 

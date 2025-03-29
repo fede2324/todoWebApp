@@ -15,23 +15,24 @@ export const AuthProvider = ({ children }) => {
                     method: "GET",
                     credentials: "include",
                 });
-
+    
                 if (!response.ok) throw new Error("Error validating user");
-
+    
                 const userData = await response.json();
                 setUser(userData.user);
-                setIsAuthenticated(true)
-            
+                setIsAuthenticated(true);
             } catch {
                 setUser(null);
-                setIsAuthenticated(false)
+                setIsAuthenticated(false);
             } finally {
                 setLoading(false);
             }
         };
-
+    
         validateUser();
-    },[]);
+    }, []); 
+    
+    
 
     // Functions to LogIn and LogOut
     async function logIn({ username, password }) {

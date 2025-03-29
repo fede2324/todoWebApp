@@ -7,39 +7,44 @@ import { useContext } from "react";
 export const TasksContext = createContext()
 
 export const TasksProvider = ({ children }) => {
-  const [tasks, setTasks] = useState([]);
   const { isAuthenticated,loading } = useAuth();
+  const [isFetchingTasks, setFetchingTasks] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [status,setStatus] = useState('all')
 
-  
 
   // Cargar tareas cuando el usuario esté autenticado y no esté cargando
   useEffect(() => {
-    if (!loading && isAuthenticated) {
-        fetchTasks()
+    if (!loading) {
+        if (isAuthenticated) {
+            fetchTasks(status);
+        } else {
+            setTasks([]);
+        }
     }
-
-    if (!loading && !isAuthenticated) {
-        setTasks([])
-    }
-  }, [isAuthenticated, loading])
+}, [isAuthenticated, loading, status]);
 
 
-  const fetchTasks = async () => {
-    try {
-        const response = await fetch('/api/v1/tasks', {
-            method: 'GET',
-            headers: { 'Content-Type': 'application/json' },
-            credentials: 'include',
-        });
+    const fetchTasks = async (status) => {
+      setFetchingTasks(true);
+      try {
+          const url = status !== "all" ? `/api/v1/tasks/?status=${status}` : '/api/v1/tasks';
+          const response = await fetch(url, {
+              method: 'GET',
+              headers: { 'Content-Type': 'application/json' },
+              credentials: 'include',
+          });
 
-        if (!response.ok) throw new Error('No se pudieron obtener las tareas')
+          if (!response.ok) throw new Error('No se pudieron obtener las tareas');
 
-        const data = await response.json()
-        setTasks(data.content || [])
-    } catch (e) {
-        console.error('Error al obtener tareas:', e.message)
-    }
-  }
+          const data = await response.json();
+          setTasks(data.content || []);
+      } catch (e) {
+          console.error('Error al obtener tareas:', e.message);
+      } finally {
+          setFetchingTasks(false);
+      }
+    };
 
   const create = async (input) => {
     try {
@@ -61,7 +66,7 @@ export const TasksProvider = ({ children }) => {
     } catch (e) {
       return { success: false, message: e.message };
     }finally{
-      fetchTasks()
+      fetchTasks(status)
     }
   };
   
@@ -90,7 +95,7 @@ export const TasksProvider = ({ children }) => {
     } catch (e) {
       return { success: false, message: e.message };
     }finally{
-      fetchTasks()
+      fetchTasks(status)
     }
   }
 
@@ -111,16 +116,13 @@ export const TasksProvider = ({ children }) => {
     } catch (e) {
       return { success: false, message: e.message };
     }finally{
-      fetchTasks()
+      fetchTasks(status)
     }
-
-
-
   }
 
 
   return (
-    <TasksContext.Provider value={{ tasks, setTasks, fetchTasks, create, update,removeTask }}>
+    <TasksContext.Provider value={{ tasks, setTasks, fetchTasks, create, update, removeTask, setStatus,status }}>
       {children}
     </TasksContext.Provider>
   );
