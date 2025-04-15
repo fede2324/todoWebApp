@@ -62,9 +62,6 @@ export default class TasksController {
     const idUser = req.user.id
     const { idTask } = req.params
 
-    console.log('!!datos:!! ', req.body)
-    console.log('!!ID:!! ', idUser)
-
     const validData = validUpdate(req.body)
 
     if (!idUser) return res.status(404).json({ message: 'Invalid userId' })

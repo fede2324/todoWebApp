@@ -60,7 +60,6 @@ export default class TasksModel {
 
     if (status) {
       try {
-        console.log(this.#setQuery('AND status=?'))
         const [tasks] = await conn.query(this.#setQuery('AND status=?'), [user, status])
         if (tasks.length === 0) return []
         return tasks

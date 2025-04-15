@@ -25,7 +25,7 @@ export const TasksProvider = ({ children }) => {
 }, [isAuthenticated, loading, status]);
 
 
-    const fetchTasks = async (status) => {
+    const fetchTasks = async (status='all') => {
       setFetchingTasks(true);
       try {
           const url = status !== "all" ? `/api/v1/tasks/?status=${status}` : '/api/v1/tasks';
