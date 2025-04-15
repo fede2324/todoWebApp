@@ -31,7 +31,7 @@ const TaskContent = () => {
           const diffDays = (due - today) / (1000 * 60 * 60 * 24);
 
           if (diffDays < 0) {
-              showAlert(`La tarea "${task.title}" ha vencido.`, "error");
+              showAlert(`La tarea "${task.title}" ha vencido.`, "danger");
           } else if (diffDays <= 2) {
               showAlert(`La tarea "${task.title}" está por vencer.`, "warning");
           }

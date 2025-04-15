@@ -22,6 +22,13 @@ export const AlertProvider = ({ children }) => {
       }, 5000);
   }, [counter]);
 
+  const closeAlert = (id) => {
+    setAlerts((prevAlerts) =>
+      prevAlerts.map((alert) =>
+        alert.id === id ? { ...alert, visible: false } : alert
+      )
+    );
+  };
 
   const showConfirm = useCallback((message, onConfirm) => {
     setConfirm({message,visible: true, onConfirm 
@@ -40,7 +47,7 @@ export const AlertProvider = ({ children }) => {
   };
 
   return (
-    <AlertContext.Provider value={{ alerts, showAlert,showConfirm, confirm,handleConfirm,handleCancel }}>
+    <AlertContext.Provider value={{ alerts, showAlert, closeAlert, showConfirm, confirm, handleConfirm, handleCancel }}>
       {children}
     </AlertContext.Provider>
   );

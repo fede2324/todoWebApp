@@ -12,15 +12,15 @@ import imgInfo from "@imgs/info.svg";
 
 // Example tasks
 // const alerts = [
-//     {id:1, message:'Alerta 1', type:'danger'},
-//     {id:2, message:'Alerta 2', type:'warning'},
-//     {id:3, message:'Alerta 3', type:'success'},
-//     {id:4, message:'Alerta 4', type:'normal'}
+//     {id:1, message:'Alerta 1', type:'danger' ,visible: true },
+//     {id:2, message:'Alerta 2', type:'warning',visible: true },
+//     {id:3, message:'Alerta 3', type:'success',visible: true },
+//     {id:4, message:'Alerta 4', type:'normal' ,visible: true }
 // ]
 
 const Message = () => {
-  const { alerts } = useAlert()
-
+  const { alerts, closeAlert } = useAlert()
+	console.log(alerts)
 
 
 
@@ -35,10 +35,12 @@ const Message = () => {
               };
               const { className, imgSrc } = alertConfig[alert.type] || alertConfig['danger'];
 
+
               return (
-                  <div key={alert.id} className={`cont-alert ${className}`}>
+                  <div key={alert.id} className={`cont-alert ${className} ${!alert.visible && 'hidden'}`}>
                       <img src={imgSrc} alt={alert.message} />
                       <p className="parrafoMensaje">{alert.message}</p>
+											<button onClick={()=>closeAlert(alert.id)} >X</button>
                   </div>
               );
           })}
