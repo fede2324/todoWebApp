@@ -20,7 +20,6 @@ const ModalDetails = ({data,close}) => {
   }
 
   
-
   const statusType = {
     new: { className: 'status--new', text: 'Nueva' },
     'in-progress': { className: 'status--progress', text: 'En proceso' },

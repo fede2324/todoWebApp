@@ -10,7 +10,7 @@ const UserMenu = () => {
     const navigate = useNavigate()
     const {logout,user} = useAuth()
     const {setTasks} = useTasks()
-    const {displayMenu,userMenu} = useHome()
+    const {displayMenu,userMenu,openModal} = useHome()
 
     useClickOutside(menuRef,()=>displayMenu(false))//Get ref to element and handler
 
@@ -25,7 +25,7 @@ const UserMenu = () => {
         <div className={`userMenu ${userMenu ? 'show' : ''}`} ref={menuRef}>
             <div className="menu options">
             <h3 className="menu title" >{user.username}</h3>
-            <button className="btnSimple" >Cambiar contraseña</button>
+            <button className="btnSimple" onClick={()=>openModal('profile')}>Perfil</button>
             <button className="btnSimple" onClick={handlerLogout} >Cerrar session</button>
             </div>
         </div>

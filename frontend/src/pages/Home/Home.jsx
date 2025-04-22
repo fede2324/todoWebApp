@@ -34,9 +34,6 @@
    useClickOutside(sideRef,() => setFilterBar(false), !isDesktop)
  
 
-
-   
- 
    return (
      <>
        {confirm.visible && <ConfirmMessage/>}

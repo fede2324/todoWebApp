@@ -437,7 +437,14 @@ main{
   width: 90%;
 }
 
-
+.logoUser{
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+.logoUser img{
+  width: 100px;
+}
 
 .addTask{
   width: 40px;

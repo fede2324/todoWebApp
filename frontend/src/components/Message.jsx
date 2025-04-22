@@ -8,6 +8,7 @@ import imgOK from "@imgs/ok.svg";
 import imgWarning from "@imgs/warning.svg";
 import imgDanger from "@imgs/danger.svg";
 import imgInfo from "@imgs/info.svg";
+import iconClose from "@imgs/closeIcon.svg";
 
 
 // Example tasks
@@ -20,10 +21,6 @@ import imgInfo from "@imgs/info.svg";
 
 const Message = () => {
   const { alerts, closeAlert } = useAlert()
-	console.log(alerts)
-
-
-
   return (
       <div className="alertContainer">
           {alerts.map((alert) => {
@@ -40,7 +37,9 @@ const Message = () => {
                   <div key={alert.id} className={`cont-alert ${className} ${!alert.visible && 'hidden'}`}>
                       <img src={imgSrc} alt={alert.message} />
                       <p className="parrafoMensaje">{alert.message}</p>
-											<button onClick={()=>closeAlert(alert.id)} >X</button>
+                      <button className="btnSimple btnIcon" onClick={()=>closeAlert(alert.id)}>
+                        <img src={iconClose} alt="volver" />
+                      </button>
                   </div>
               );
           })}

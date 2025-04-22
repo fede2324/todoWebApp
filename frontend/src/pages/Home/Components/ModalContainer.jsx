@@ -1,5 +1,6 @@
 import ModalTaskForm from "./ModalTaskForm.jsx";
 import ModalDetails from "./ModalDetails.jsx";
+import ModalProfile from "./ModalProfile.jsx";
 //Hooks
 import useHome from '@hooks/useModal.jsx'
 
@@ -13,6 +14,7 @@ const ModalContainer = () => {
       {modalType === 'create'  && <ModalTaskForm mode="create" close={closeModal} />}
       {modalType === 'edit'    && <ModalTaskForm mode="edit" taskData={modalData} close={closeModal} />}
       {modalType === 'details' && <ModalDetails  data={modalData} close={closeModal} />}
+      {modalType === 'profile' && <ModalProfile  close={closeModal}/>}
     </div>
   )
 }
