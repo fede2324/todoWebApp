@@ -45,7 +45,6 @@ export class UserController {
     const { data, error } = validateUser(req.body)
 
     if (error) {
-      console.log('Errores de validación:', error.errors)
       return res.status(400).json({ errors: error.errors })
     }
     // Validate user
